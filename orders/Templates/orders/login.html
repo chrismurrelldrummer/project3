@@ -18,13 +18,13 @@ Login
 <form>
     <div class="form-group">
         <label for="un">Username:</label>
-        <input type="text" class="form-control" id="un">
+        <input type="text" class="form-control" id="un" autofocus required>
     </div>
     <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" id="password" required>
     </div>
-    <button type="submit" class="btn btn-primary">Log In</button>
+    <button type="submit" class="btn btn-success">Log In</button>
 </form>
 
 {% endblock %}

@@ -1,3 +1,11 @@
 h1 {
     text-align: center;
 }
+
+.fa-check-circle {
+    color: green;
+}
+
+.fa-times-circle {
+    color: red;
+}
