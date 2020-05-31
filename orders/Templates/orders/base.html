@@ -37,7 +37,7 @@
 
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Pizza</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Pizza</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,18 +46,19 @@
 
             <!-- logged in -->
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="#">Home</a>
-                <a class="nav-item nav-link" href="#">Menu</a>
+                <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url 'menu' %}">Menu</a>
             </div>
 
             <!-- if not logged in -->
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="#">Register</a>
-                <a class="nav-item nav-link" href="#">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             </div>
 
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="#"><i class="fas fa-shopping-basket"></i> Basket</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i> Basket</a>
             </div>
 
         </div>
@@ -71,7 +72,7 @@
     <!-- footer -->
     <footer>
         <div class="muted text-center">
-            <p>&copy; Chris Murrell, all rights reserved 2020.</p>
+            <p>&copy; Chris Murrell - all rights reserved 2020.</p>
         </div>
     </footer>
 
