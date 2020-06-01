@@ -20,7 +20,8 @@ Register
 </div>
 {% endif %}
 
-<form>
+<form action="{% url 'register' %}" method="POST">
+    {% csrf_token %}
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="first">First Name:</label>

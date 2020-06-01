@@ -52,6 +52,10 @@
                 <a class="nav-item nav-link" href="{% url 'menu' %}">Menu</a>
             </div>
 
+            <div class="navbar-nav text-center text-light">
+                Logged in as: {{ user.username }}
+            </div>
+
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i> Basket</a>

@@ -15,7 +15,8 @@ Login
 </div>
 {% endif %}
 
-<form>
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
     <div class="form-group">
         <label for="un">Username:</label>
         <input type="text" class="form-control" id="un" name="un" autofocus required>
