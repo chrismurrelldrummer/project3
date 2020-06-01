@@ -42,7 +42,7 @@ def log_in(request):
 
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("home"))
+            return HttpResponseRedirect(reverse("menu"))
         else:
             return render(request, "users/login.html", {"message": "Invalid username/password."})
 
