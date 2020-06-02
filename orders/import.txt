@@ -1,0 +1,25 @@
+from orders.models import Pizza
+
+Pizza.objects.create(typ='')
+
+from orders.models import Toppings
+
+Toppings.objects.create(typ='Pepperoni')
+Toppings.objects.create(typ='Sausage')
+Toppings.objects.create(typ='Mushrooms')
+Toppings.objects.create(typ='Onions')
+Toppings.objects.create(typ='Ham')
+Toppings.objects.create(typ='Canadian Bacon')
+Toppings.objects.create(typ='Pineapple')
+Toppings.objects.create(typ='Eggplant')
+Toppings.objects.create(typ='Tomato & Basil')
+Toppings.objects.create(typ='Green Peppers')
+Toppings.objects.create(typ='Hamburger')
+Toppings.objects.create(typ='Spinach')
+Toppings.objects.create(typ='Artichoke')
+Toppings.objects.create(typ='Buffalo Chicken')
+Toppings.objects.create(typ='Barbecue Chicken')
+Toppings.objects.create(typ='Anchovies')
+Toppings.objects.create(typ='Black Olives')
+Toppings.objects.create(typ='Fresh Garlic')
+Toppings.objects.create(typ='Zucchini')
