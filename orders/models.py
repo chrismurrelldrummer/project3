@@ -25,7 +25,7 @@ class Pizza(models.Model):
     typ = models.CharField(max_length=10)
     category = models.CharField(max_length=10)
     size = models.CharField(max_length=5)
-    toppings = models.ManyToManyField('Toppings', related_name='pizzas')
+    toppings = models.ManyToManyField('Toppings', blank=True, related_name='pizzas')
     price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
