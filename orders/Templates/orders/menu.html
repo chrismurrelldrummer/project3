@@ -6,4 +6,16 @@ Menu
 
 {% block main %}
 <h1>Menu page under construction.</h1>
+
+<h3>Pizzas:</h3>
+{% for row in pizza %}
+<p>{{ row.typ }}, {{ row.category }}, {{ row.size }} -- ${{ row.price }}</p>
+{% endfor %}
+
+<h3>Toppings:</h3>
+{% for row in toppings %}
+<p>{{ row }}</p>
+{% endfor %}
+
+
 {% endblock %}

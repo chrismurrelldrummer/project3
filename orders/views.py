@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Orders, Pizza, Toppings, Sub, Extras, Pasta, Salad, Platter
 
 
 def home(request):
@@ -62,7 +63,9 @@ def menu(request):
     if request.user.is_authenticated:
 
         context = {
-            "user": request.user
+            "user": request.user,
+            "pizza": Pizza.objects.all(),
+            "toppings": Toppings.objects.all()
         }
         return render(request, "orders/menu.html", context)
 
