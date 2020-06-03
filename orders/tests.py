@@ -23,7 +23,7 @@ class ModelsTestCase(TestCase):
         Pineapple = Toppings.objects.create(typ='Pineapple')
     
     
-    def loaded(self)
+    def loaded(self):
         t = Toppings.objects.all()
         p = Pizza.objects.all()
         self.assertEqual(t.count(), 7)
