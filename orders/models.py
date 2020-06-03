@@ -24,12 +24,12 @@ class Orders(models.Model):
 class Pizza(models.Model):
     typ = models.CharField(max_length=10)
     category = models.CharField(max_length=10)
-    size = models.CharField(max_length=5)
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='pizzas')
-    price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
-        return f"{self.typ} {self.category} {self.size} {self.toppings} -- ${self.price}"
+        return f"{self.typ} {self.category} small = ${self.smPrice} large = ${self.lgPrice}"
 
 
 # pizza toppings model

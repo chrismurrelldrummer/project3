@@ -1,21 +1,103 @@
 {% extends "orders/base.html" %}
+{% load static %}
+
+{% block script %}
+<script src="{% static 'orders/menu.js' %}"></script>
+{% endblock %}
 
 {% block title %}
 Menu
 {% endblock %}
 
 {% block main %}
-<h1>Menu page under construction.</h1>
+<h1>Menu</h1>
 
-<h3>Pizzas:</h3>
-{% for row in pizza %}
-<p>{{ row.typ }}, {{ row.category }}, {{ row.size }} -- ${{ row.price }}</p>
-{% endfor %}
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Pizzas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Subs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pasta</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
 
-<h3>Toppings:</h3>
-{% for row in toppings %}
-<p>{{ row }}</p>
-{% endfor %}
+        {% for row in pizza %}
+        <form action="#" method="post">
+            <div class="card text-left">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                {{ row.typ }} - {{ row.category }}
+                            </div>
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-success" id="smplace" name="smplace" value="{{ row.smPrice }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                <button type="submit" class="btn btn-success" id="lgplace" name="lgplace" value="{{ row.lgPrice }}" hidden>
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                            </div>
+                        </div>
+                    </h5>
+                    <p class="card-text">Details about the pizza here.</p>
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-info active">
+                                    <input type="radio" name="small" id="small" value="small" checked>Small
+                                </label>
+                                <label class="btn btn-info">
+                                    <input type="radio" name="large" id="large" value="large">Large
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
+                                data-target="#tops{{ row.id }}" aria-controls="list-group"
+                                aria-expanded="false">Customise</button>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
+                    <li class="list-group-item pb-4">
+
+                        <select class="custom-select col-3">
+                            <option selected>Select Topping 1...</option>
+                            {% for row in toppings %}
+                            <option value="{{ row }}">{{ row }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <select class="custom-select col-3">
+                            <option selected>Select Topping 2...</option>
+                            {% for row in toppings %}
+                            <option value="{{ row }}">{{ row }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <select class="custom-select col-3">
+                            <option selected>Select Topping 3...</option>
+                            {% for row in toppings %}
+                            <option value="{{ row }}">{{ row }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                    </li>
+                </ul>
+            </div>
+        </form>
+        {% endfor %}
+
+    </div>
+</div>
 
 
 {% endblock %}
