@@ -22,8 +22,12 @@ class ModelsTestCase(TestCase):
         CanadianBacon = Toppings.objects.create(typ='Canadian Bacon')
         Pineapple = Toppings.objects.create(typ='Pineapple')
     
-        self.assertEqual(Toppings.count(), 7)
-        self.assertEqual(Pizza.count(), 4)
+    
+    def loaded(self)
+        t = Toppings.objects.all()
+        p = Pizza.objects.all()
+        self.assertEqual(t.count(), 7)
+        self.assertEqual(p.count(), 4)
 
     # # test adding 2 topping to a pizza
     # def test_toppings_add1(self):
