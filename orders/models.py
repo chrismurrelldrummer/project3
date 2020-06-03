@@ -34,7 +34,7 @@ class Pizza(models.Model):
 
 # pizza toppings model
 class Toppings(models.Model):
-    typ = models.CharField(max_length=64)
+    typ = models.ManyToManyField('Pizza', related_name='toppings')
 
     def __str__(self):
         return f"{self.typ}"
