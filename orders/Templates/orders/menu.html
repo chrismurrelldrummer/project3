@@ -29,69 +29,64 @@ Menu
     <div class="card-body">
 
         {% for row in pizza %}
-        <form action="#" method="post">
+        <form action="{% url 'menu' %}" method="post">
+            {% csrf_token %}
             <div class="card text-left">
                 <div class="card-body">
                     <h5 class="card-title">
                         <div class="row">
                             <div class="col">
-                                {{ row.typ }} - {{ row.category }}
+                                <span name="typ" value="{{ row.typ }}">{{ row.typ }}</span> - <span name="cat"
+                                    value="{{ row.category }}">{{ row.category }}</span>
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="smplace" name="smplace" value="{{ row.smPrice }}">
+                                <button type="submit" class="btn btn-success" id="smplace{{ row.id }}" name="smplace"
+                                    value="{{ row.smPrice }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
-                                <button type="submit" class="btn btn-success" id="lgplace" name="lgplace" value="{{ row.lgPrice }}" hidden>
+                                <button type="submit" class="btn btn-success" id="lgplace{{ row.id }}" name="lgplace"
+                                    value="{{ row.lgPrice }}" hidden>
                                     &plus; ${{ row.lgPrice }}
                                 </button>
                             </div>
                         </div>
                     </h5>
-                    <p class="card-text">Details about the pizza here.</p>
                     <div class="row">
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-info active">
-                                    <input type="radio" name="small" id="small" value="small" checked>Small
+                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}" checked>Small
                                 </label>
                                 <label class="btn btn-info">
-                                    <input type="radio" name="large" id="large" value="large">Large
+                                    <input type="radio" name="large" id="large" value="large" data-row="{{ row.id }}">Large
                                 </label>
                             </div>
                         </div>
+                        {% if row.numTop > 0 %}
                         <div class="col text-right">
                             <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
                                 data-target="#tops{{ row.id }}" aria-controls="list-group"
                                 aria-expanded="false">Customise</button>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
+                {% if row.numTop > 0 %}
                 <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
                     <li class="list-group-item pb-4">
 
-                        <select class="custom-select col-3">
-                            <option selected>Select Topping 1...</option>
+                        {% for i in row.num %}
+                        <select class="custom-select col-3" name="customTop{{i}}">
+                            <option value="" selected>Select topping {{i}}...</option>
                             {% for row in toppings %}
                             <option value="{{ row }}">{{ row }}</option>
                             {% endfor %}
                         </select>
+                        {% endfor %}
 
-                        <select class="custom-select col-3">
-                            <option selected>Select Topping 2...</option>
-                            {% for row in toppings %}
-                            <option value="{{ row }}">{{ row }}</option>
-                            {% endfor %}
-                        </select>
-
-                        <select class="custom-select col-3">
-                            <option selected>Select Topping 3...</option>
-                            {% for row in toppings %}
-                            <option value="{{ row }}">{{ row }}</option>
-                            {% endfor %}
-                        </select>
-                        
                     </li>
                 </ul>
+                {% endif %}
             </div>
         </form>
         {% endfor %}

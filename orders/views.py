@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Orders, Pizza, Toppings, Sub, Extras, Pasta, Salad, Platter
+from .models import Orders, Pizza, Toppings, Sub, Extras, Pasta, Salad, Platter, PizOrder
 
 
 def home(request):
@@ -62,12 +62,70 @@ def menu(request):
 
     if request.user.is_authenticated:
 
-        context = {
-            "user": request.user,
-            "pizza": Pizza.objects.all(),
-            "toppings": Toppings.objects.all()
-        }
-        return render(request, "orders/menu.html", context)
+        if request.method == 'GET':
+
+            # django won't allow range in template {% %} of html page hence defining it here
+            it = Pizza.objects.all()
+
+            # iterate over pizas and add column for ranges
+            for row in it:
+                num = row.numTop
+                row.num = range(1, (num+1))
+
+            context = {
+                "user": request.user,
+                "pizza": it,
+                "toppings": Toppings.objects.all()
+            }
+            return render(request, "orders/menu.html", context)
+        else:
+            # returning none *****************************************************************8
+            typ = request.POST.get("typ")
+            cat = request.POST.get("cat")
+
+            toppings = []
+            maxTop = 0
+
+            # find max number of possible toppings
+            piz = Pizza.objects.all()
+
+            for row in piz:
+                num = row.numTop
+                if num > maxTop:
+                    maxTop = num
+            
+            for i in range(1,(maxTop + 1)):
+                try:
+                    top = request.POST[f"customTop{i}"]
+                    toppings.append(top)
+                except:
+                    continue
+
+            try:
+                size = request.POST["small"]
+                price = request.POST["smplace"]
+            except:
+                size = request.POST["large"]
+                price = request.POST["lgplace"]
+
+            user = request.user
+
+            # if User.objects.pk == Orders.objects.user_id and Orders.objects.active == 'Y':
+            #     piz1 = PizOrder(username, email, password)
+            #     piz1.save()
+            #     Order.pizItem.add(piz1)
+            #     Order.save()
+
+            context = {
+                "user": user.username,
+                "typ": typ,
+                "cat": cat,
+                "tops": toppings,
+                "size": size,
+                "price": price
+            }
+
+            return render(request, "orders/menu.html", {'message': context})
 
     else:
         return render(request, "orders/menu.html")

@@ -7,7 +7,7 @@ class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='orders')
-    pizItems = models.ManyToManyField('Pizza', blank=True, related_name='pizItems')
+    pizItems = models.ManyToManyField('PizOrder', blank=True, related_name='pizItems')
     subItems = models.ManyToManyField('Sub', blank=True, related_name='subItems')
     pastaItems = models.ManyToManyField('Pasta', blank=True, related_name='pastaItems')
     saladItems = models.ManyToManyField('Salad', blank=True, related_name='saladItems')
@@ -26,10 +26,22 @@ class Pizza(models.Model):
     category = models.CharField(max_length=10)
     smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
-    toppings = models.ManyToManyField('Toppings', blank=True, related_name='pizzas')
+    numTop = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.typ} {self.category} small = ${self.smPrice} large = ${self.lgPrice}"
+        return f"{self.typ} {self.category} {self.numTop} small = ${self.smPrice} large = ${self.lgPrice}"
+
+# pizza orders
+class PizOrder(models.Model):
+    orderID = models.ManyToManyField('Orders', related_name='pizOrders')
+    typ = models.CharField(max_length=10)
+    category = models.CharField(max_length=10)
+    size = models.CharField(max_length=5)
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
+
+    def __str__(self):
+        return f"{self.orderID} {self.typ} {self.category} {self.size} {self.toppings} ${self.price}"
 
 
 # pizza toppings model
