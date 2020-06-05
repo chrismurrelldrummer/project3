@@ -97,34 +97,94 @@ class ModelsTestCase(TestCase):
         self.assertEqual(float(po1.price), 17.95)
         self.assertEqual(po1.price, ord1.cost)
         self.assertEqual(po1.toppings.count(), 0)
+        self.assertEqual(po1.toppings.count(), p1.numTop)
+        self.assertFalse(po2.toppings.count(), p2.numTop)
         self.assertFalse(po2 == po3)
 
-    # def test_add_pizItem2(self):
-    #     """create a complex pizza order"""
+    def test_add_pizOrder(self):
+        """create a complex pizza order with multiple pizzas"""
 
-    #     u1 = User.objects.get(id='1')
-    #     u2 = User.objects.get(id='2')
+        u1 = User.objects.get(id='1')
+        u2 = User.objects.get(id='2')
 
-    #     ord1 = Orders.objects.get(user_id=u1, active='Y')
-    #     ord2 = Orders.objects.get(user_id=u2, active='Y')
+        ord1 = Orders.objects.get(user_id=u1, active='Y')
+        ord2 = Orders.objects.get(user_id=u2, active='Y')
 
-    #     p1 = Pizza.objects.get(typ='Regular', category='Cheese')
-    #     p2 = Pizza.objects.get(typ='Regular', category='1 topping')
-    #     p3 = Pizza.objects.get(typ='Sicilian', category='3 item')
+        p1 = Pizza.objects.get(typ='Regular', category='Cheese')
+        p2 = Pizza.objects.get(typ='Regular', category='1 topping')
+        p3 = Pizza.objects.get(typ='Regular', category='2 topping')
+        p4 = Pizza.objects.get(typ='Sicilian', category='3 item')
 
-    #     pepperoni = Toppings.objects.get(typ='Pepperoni')
-    #     sausage = Toppings.objects.get(typ='Sausage')
-    
+        pepperoni = Toppings.objects.get(typ='Pepperoni')
+        ham = Toppings.objects.get(typ='Ham')
+        sausage = Toppings.objects.get(typ='Sausage')
+        mushrooms = Toppings.objects.get(typ='Mushrooms')
+        onions = Toppings.objects.get(typ='Onions')
 
-    # # test adding 2 topping to a pizza
-    # def test_toppings_add1(self):
-    #     p = Pizza.objects.get(typ='Regular', category='2 topping', size='small', price='15.20')
-    #     pepperoni = Toppings.objects.get(typ='Pepperoni')
-    #     sausage = Toppings.objects.get(typ='Sausage')
-    #     p.toppings.add(pepperoni)
-    #     p.toppings.add(sausage)
-    #     self.assertEqual(p.toppings.count(), 2)
-    
-    # # check that original with no toppings still exists
-    # def test_toppings_add2(self):
-    #     self.assertEqual(p2.toppings.count(), 0)
+        # ------------------- first order -----------------------
+
+        # order 1 - cheese pizza
+        po1 = PizOrder.objects.create(typ=p1.typ, category=p1.category, price=p1.lgPrice, size='large')
+        po1.order_id.add(ord1)
+        po1.save()
+        ord1.cost += po1.price
+        ord1.save()
+
+        # order 1 - 1 topping
+        po2 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.smPrice, size='small')
+        po2.order_id.add(ord1)
+        po2.toppings.add(pepperoni)
+        po2.save()
+        ord1.cost += po2.price
+        ord1.save()
+
+        ord1.pizItems.add(po1, po2)
+        ord1.save()
+
+        # ---------------- second order ------------------------
+
+        # order 2 - 1 topping
+        po3 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.lgPrice, size='large')
+        po3.order_id.add(ord2)
+        po3.toppings.add(pepperoni)
+        po3.save()
+        ord2.cost += po3.price
+        ord2.save()
+
+        # order 2 - 2 toppings
+        po4 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.lgPrice, size='large')
+        po4.order_id.add(ord2)
+        po4.toppings.add(pepperoni, sausage)
+        po4.save()
+        ord2.cost += po4.price
+        ord2.save()
+
+        # order 2 - 2 toppings again
+        po5 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.smPrice, size='small')
+        po5.order_id.add(ord2)
+        po5.toppings.add(pepperoni, sausage)
+        po5.save()
+        ord2.cost += po5.price
+        ord2.save()
+
+        # order 2 - Sicilian 3 toppings
+        po6 = PizOrder.objects.create(typ=p4.typ, category=p4.category, price=p4.smPrice, size='small')
+        po6.order_id.add(ord2)
+        po6.toppings.add(ham, mushrooms, onions)
+        po6.save()
+        ord2.cost += po6.price
+        ord2.save()
+
+        ord2.pizItems.add(po3, po4, po5, po6)
+        ord2.save()
+
+        # order 1
+        order1tot = po1.price + po2.price
+        # order 2
+        order2tot = po3.price + po4.price + po5.price + po6.price
+
+        self.assertEqual(ord1.pizItems.count(), 2)
+        self.assertEqual(ord2.pizItems.count(), 4)
+        
+        self.assertEqual(ord1.cost, order1tot)
+        self.assertEqual(ord2.cost, order2tot)
