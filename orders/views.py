@@ -2,7 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Orders, Pizza, Toppings, Sub, Extras, Pasta, Salad, Platter, PizOrder
+from .models import Orders, Basket, Pizza, PizOrder, Toppings, Sub, Extras, Pasta, Salad, Platter
+
 
 
 def home(request):
@@ -110,11 +111,7 @@ def menu(request):
 
             user = request.user
 
-            # if User.objects.pk == Orders.objects.user_id and Orders.objects.active == 'Y':
-            #     piz1 = PizOrder(username, email, password)
-            #     piz1.save()
-            #     Order.pizItem.add(piz1)
-            #     Order.save()
+            # if order/basket already active for user
 
             context = {
                 "user": user.username,

@@ -23,6 +23,24 @@ class Orders(models.Model):
         return f"{self.order_id} {self.user_id} {self.time_placed} {self.active} -- ${self.cost}"
 
 
+# basket (temporary orders)
+class Basket(models.Model):
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='basket')
+    pizItems = models.ManyToManyField('PizOrder', blank=True, related_name='pizBask')
+    subItems = models.ManyToManyField('Sub', blank=True, related_name='subBask')
+    pastaItems = models.ManyToManyField('Pasta', blank=True, related_name='pastaBask')
+    saladItems = models.ManyToManyField('Salad', blank=True, related_name='saladBask')
+    platItems = models.ManyToManyField('Platter', blank=True, related_name='platBask')
+    cost = models.DecimalField(max_digits=6, decimal_places=2, default='00.00')
+
+    class meta:
+        verbose_name_plural = 'Basket'
+    
+    def __str__(self):
+        return f"{self.user_id} -- ${self.cost}"
+
+
 # pizza menu model to include regular and sicilian
 class Pizza(models.Model):
     typ = models.CharField(max_length=10)

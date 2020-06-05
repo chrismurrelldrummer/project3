@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from django.contrib.auth.models import User
-from orders.models import Orders, Pizza, PizOrder, Toppings, Sub, Extras, Pasta, Salad, Platter
+from orders.models import Orders, Basket, Pizza, PizOrder, Toppings, Sub, Extras, Pasta, Salad, Platter
 
 # Create your tests here.
 class ModelsTestCase(TestCase):
@@ -32,6 +32,10 @@ class ModelsTestCase(TestCase):
         ord1 = Orders.objects.create(user_id=u1)
         ord2 = Orders.objects.create(user_id=u2)
         ord3 = Orders.objects.create(user_id=u2, active="N")
+
+        # Create baskets
+        bask1 = Basket.objects.create(user_id=u1)
+        bask2 = Basket.objects.create(user_id=u2)
     
     
     def test_price_query(self):
@@ -101,6 +105,7 @@ class ModelsTestCase(TestCase):
         self.assertFalse(po2.toppings.count(), p2.numTop)
         self.assertFalse(po2 == po3)
 
+    
     def test_add_pizOrder(self):
         """create a complex pizza order with multiple pizzas"""
 
@@ -183,8 +188,84 @@ class ModelsTestCase(TestCase):
         # order 2
         order2tot = po3.price + po4.price + po5.price + po6.price
 
+        ordCount = Orders.objects.filter(user_id=u2, active='Y').count()
+
         self.assertEqual(ord1.pizItems.count(), 2)
         self.assertEqual(ord2.pizItems.count(), 4)
         
         self.assertEqual(ord1.cost, order1tot)
         self.assertEqual(ord2.cost, order2tot)
+
+        self.assertEqual(ordCount, 1)
+    
+    
+    def test_add_basket(self):
+        """create a basket order to add to orders"""
+
+        u1 = User.objects.get(id='1')
+
+        ord1 = Orders.objects.get(user_id=u1, active='Y')
+        bask1 = Basket.objects.get(user_id=u1)
+
+        p2 = Pizza.objects.get(typ='Regular', category='1 topping')
+        p3 = Pizza.objects.get(typ='Regular', category='2 topping')
+        p4 = Pizza.objects.get(typ='Sicilian', category='3 item')
+
+        pepperoni = Toppings.objects.get(typ='Pepperoni')
+        ham = Toppings.objects.get(typ='Ham')
+        sausage = Toppings.objects.get(typ='Sausage')
+        mushrooms = Toppings.objects.get(typ='Mushrooms')
+        onions = Toppings.objects.get(typ='Onions')
+
+        # 1 topping
+        po3 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.lgPrice, size='large')
+        po3.toppings.add(pepperoni)
+        po3.save()
+        bask1.cost += po3.price
+        bask1.save()
+
+        # 2 toppings
+        po4 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.lgPrice, size='large')
+        po4.toppings.add(pepperoni, sausage)
+        po4.save()
+        bask1.cost += po4.price
+        bask1.save()
+
+        # 2 toppings again
+        po5 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.smPrice, size='small')
+        po5.toppings.add(pepperoni, sausage)
+        po5.save()
+        bask1.cost += po5.price
+        bask1.save()
+
+        # Sicilian 3 toppings
+        po6 = PizOrder.objects.create(typ=p4.typ, category=p4.category, price=p4.smPrice, size='small')
+        po6.toppings.add(ham, mushrooms, onions)
+        po6.save()
+        bask1.cost += po6.price
+        bask1.save()
+
+        bask1.pizItems.add(po3, po4, po5, po6)
+        bask1.save()
+
+        # order total
+        order1tot = po3.price + po4.price + po5.price + po6.price
+
+        # once submitted and order placed
+        po3.order_id.add(ord1)
+        po4.order_id.add(ord1)
+        po5.order_id.add(ord1)
+        po6.order_id.add(ord1)
+        po3.save()
+        po4.save()
+        po5.save()
+        po6.save()
+
+        for row in bask1.pizItems.all():
+            ord1.pizItems.add(row)
+        
+        ord1.cost = bask1.cost
+
+        self.assertEqual(bask1.pizItems.count(), 4)
+        self.assertEqual(bask1.cost, order1tot)
+        self.assertEqual(ord1.cost, order1tot)
