@@ -21,13 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
         input.onchange = () => {
 
             const row = input.dataset.row;
-            
+
             document.querySelector(`#smplace${row}`).hidden = false;
             document.querySelector(`#lgplace${row}`).hidden = true;
             input.className = 'btn btn-info active';
             input.checked = true;
             document.querySelector('#large').className = 'btn btn-info';
             document.querySelector('#large').checked = false;
+        }
+    });
+
+    document.querySelectorAll('.smplace').forEach((button) => {
+
+        button.onclick = () => {
+
+            const ident = button.dataset.ident;
+            const size = 'small';
+
+            data = JSON.stringify({
+                'ident': ident,
+                'size': size
+            })
+            localStorage.setItem('basket', data);
         }
     });
 });

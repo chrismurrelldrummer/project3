@@ -16,13 +16,13 @@ Menu
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Pizzas</a>
+                <button class="nav-link active">Pizzas</button>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Subs</a>
+                <button class="nav-link">Subs</button>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Pasta</a>
+                <button class="nav-link">Pasta</button>
             </li>
         </ul>
     </div>
@@ -36,15 +36,14 @@ Menu
                     <h5 class="card-title">
                         <div class="row">
                             <div class="col">
-                                <span name="typ" value="{{ row.typ }}">{{ row.typ }}</span> - <span name="cat"
-                                    value="{{ row.category }}">{{ row.category }}</span>
+                                {{ row.typ }} - {{ row.category }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="smplace{{ row.id }}" name="smplace"
-                                    value="{{ row.smPrice }}">
+                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}" name="smplace"
+                                    value="{{ row.smPrice }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
-                                <button type="submit" class="btn btn-success" id="lgplace{{ row.id }}" name="lgplace"
+                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
                                     value="{{ row.lgPrice }}" hidden>
                                     &plus; ${{ row.lgPrice }}
                                 </button>
@@ -55,10 +54,12 @@ Menu
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-info active">
-                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}" checked>Small
+                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
+                                        checked>Small
                                 </label>
                                 <label class="btn btn-info">
-                                    <input type="radio" name="large" id="large" value="large" data-row="{{ row.id }}">Large
+                                    <input type="radio" name="large" id="large" value="large"
+                                        data-row="{{ row.id }}">Large
                                 </label>
                             </div>
                         </div>

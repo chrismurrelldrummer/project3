@@ -1,3 +1,5 @@
+
+from django.contrib import admin
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -51,6 +53,7 @@ class Pizza(models.Model):
     
     def __str__(self):
         return f"{self.typ} {self.category} {self.numTop} small = ${self.smPrice} large = ${self.lgPrice}"
+
 
 # pizza orders
 class PizOrder(models.Model):
