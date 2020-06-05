@@ -16,6 +16,9 @@ class Orders(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2, default='00.00')
     active = models.CharField(max_length=1, default='Y')
 
+    class meta:
+        verbose_name_plural = 'Orders'
+    
     def __str__(self):
         return f"{self.order_id} {self.user_id} {self.time_placed} {self.active} -- ${self.cost}"
 
@@ -27,13 +30,13 @@ class Pizza(models.Model):
     smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     numTop = models.IntegerField(default=0)
-
+    
     def __str__(self):
         return f"{self.typ} {self.category} {self.numTop} small = ${self.smPrice} large = ${self.lgPrice}"
 
 # pizza orders
 class PizOrder(models.Model):
-    orderID = models.ManyToManyField('Orders', related_name='pizOrders')
+    order_id = models.ManyToManyField('Orders', related_name='pizOrders')
     typ = models.CharField(max_length=10)
     category = models.CharField(max_length=10)
     size = models.CharField(max_length=5)
@@ -41,12 +44,15 @@ class PizOrder(models.Model):
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
 
     def __str__(self):
-        return f"{self.orderID} {self.typ} {self.category} {self.size} {self.toppings} ${self.price}"
+        return f"{self.order_id} {self.typ} {self.category} {self.size} {self.toppings} ${self.price}"
 
 
 # pizza toppings model
 class Toppings(models.Model):
     typ = models.CharField(max_length=64)
+
+    class meta:
+        verbose_name_plural = 'Toppings'
 
     def __str__(self):
         return f"{self.typ}"
@@ -66,6 +72,9 @@ class Sub(models.Model):
 class Extras(models.Model):
     typ = models.CharField(max_length=64)
 
+    class meta:
+        verbose_name_plural = 'Extras'
+    
     def __str__(self):
         return f"{self.typ}"
 

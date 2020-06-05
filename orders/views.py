@@ -80,8 +80,8 @@ def menu(request):
             return render(request, "orders/menu.html", context)
         else:
             # returning none *****************************************************************8
-            typ = request.POST.get("typ")
-            cat = request.POST.get("cat")
+            typ = request.form.get("typ")
+            cat = request.form.get("cat")
 
             toppings = []
             maxTop = 0
