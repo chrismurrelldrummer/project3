@@ -12,15 +12,34 @@ from .models import *
 
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'category', 'smPrice', 'lgPrice', 'numTop')
-    list_editable = ('typ', 'category', 'smPrice', 'lgPrice', 'numTop')
+    list_editable = ('smPrice', 'lgPrice', 'numTop')
     #   actions = [change_price]
 
+class SubAdmin(admin.ModelAdmin):
+    list_display = ('id', 'typ', 'smPrice', 'lgPrice')
+    list_editable = ('smPrice', 'lgPrice')
+
+class ExtraAdmin(admin.ModelAdmin):
+    list_display = ('id', 'typ', 'price')
+    list_editable = ['price']
+
+class PastaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'typ', 'price')
+    list_editable = ['price']
+
+class SaladAdmin(admin.ModelAdmin):
+    list_display = ('id', 'typ', 'price')
+    list_editable = ['price']
+
+class PlatterAdmin(admin.ModelAdmin):
+    list_display = ('id', 'typ','smPrice', 'lgPrice')
+    list_editable = ('smPrice', 'lgPrice')
 
 admin.site.register(Orders)
 admin.site.register(Pizza, PizzaAdmin)
 admin.site.register(Toppings)
-admin.site.register(Sub)
-admin.site.register(Extras)
-admin.site.register(Pasta)
-admin.site.register(Salad)
-admin.site.register(Platter)
+admin.site.register(Sub, SubAdmin)
+admin.site.register(Extras, ExtraAdmin)
+admin.site.register(Pasta, PastaAdmin)
+admin.site.register(Salad, SaladAdmin)
+admin.site.register(Platter, PlatterAdmin)

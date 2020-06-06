@@ -104,6 +104,7 @@ class SubOrder(models.Model):
 # extras for subs
 class Extras(models.Model):
     typ = models.CharField(max_length=64)
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.50')
 
     class meta:
         verbose_name_plural = 'Extras'
