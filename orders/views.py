@@ -76,7 +76,10 @@ def menu(request):
             context = {
                 "user": request.user,
                 "pizza": it,
-                "toppings": Toppings.objects.all()
+                "toppings": Toppings.objects.all(),
+                'subs': Sub.objects.all(),
+                'extras': Extras.objects.all(),
+                'pasta': Pasta.objects.all()
             }
             return render(request, "orders/menu.html", context)
         else:

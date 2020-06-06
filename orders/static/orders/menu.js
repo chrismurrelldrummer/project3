@@ -45,4 +45,40 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('basket', data);
         }
     });
+
+    document.querySelector('#pizzas').onclick = () => {
+
+        document.querySelector('#pizzas').className = 'nav-link active';
+        document.querySelector('#subs').className = 'nav-link';
+        document.querySelector('#pasta').className = 'nav-link';
+        document.querySelector('#pizzaBody').hidden = false;
+        document.querySelector('#subBody').hidden = true;
+        document.querySelector('#pastaBody').hidden = true;
+
+        document.querySelector('#pizzas').blur();
+    };
+
+    document.querySelector('#subs').onclick = () => {
+
+        document.querySelector('#subs').className = 'nav-link active';
+        document.querySelector('#pizzas').className = 'nav-link';
+        document.querySelector('#pasta').className = 'nav-link';
+        document.querySelector('#pizzaBody').hidden = true;
+        document.querySelector('#subBody').hidden = false;
+        document.querySelector('#pastaBody').hidden = true;
+
+        document.querySelector('#subs').blur();
+    };
+
+    document.querySelector('#pasta').onclick = () => {
+
+        document.querySelector('#pasta').className = 'nav-link active';
+        document.querySelector('#subs').className = 'nav-link';
+        document.querySelector('#pizzas').className = 'nav-link';
+        document.querySelector('#pizzaBody').hidden = true;
+        document.querySelector('#subBody').hidden = true;
+        document.querySelector('#pastaBody').hidden = false;
+
+        document.querySelector('#pasta').blur();
+    };
 });

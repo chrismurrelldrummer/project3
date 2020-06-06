@@ -43,3 +43,5 @@ admin.site.register(Extras, ExtraAdmin)
 admin.site.register(Pasta, PastaAdmin)
 admin.site.register(Salad, SaladAdmin)
 admin.site.register(Platter, PlatterAdmin)
+
+admin.site.site_header = "Pizza Orders & Administration"

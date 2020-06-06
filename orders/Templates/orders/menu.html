@@ -16,18 +16,18 @@ Menu
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <button class="nav-link active">Pizzas</button>
+                <button class="nav-link active" id="pizzas">Pizzas</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link">Subs</button>
+                <button class="nav-link" id="subs">Subs</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link">Pasta</button>
+                <button class="nav-link" id="pasta">Pasta</button>
             </li>
         </ul>
     </div>
-    <div class="card-body">
-
+    <!-- pizzas tab -->
+    <div class="card-body" id="pizzaBody">
         {% for row in pizza %}
         <form action="{% url 'menu' %}" method="post">
             {% csrf_token %}
@@ -39,8 +39,8 @@ Menu
                                 {{ row.typ }} - {{ row.category }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}" name="smplace"
-                                    value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
+                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
                                 <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
@@ -91,7 +91,91 @@ Menu
             </div>
         </form>
         {% endfor %}
+    </div>
 
+    <!-- subs tab -->
+    <div class="card-body" id="subBody" hidden>
+        {% for row in subs %}
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="card text-left">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                {{ row.typ }}
+                            </div>
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
+                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
+                                    value="{{ row.lgPrice }}" hidden>
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                            </div>
+                        </div>
+                    </h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-info active">
+                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
+                                        checked>Small
+                                </label>
+                                <label class="btn btn-info">
+                                    <input type="radio" name="large" id="large" value="large"
+                                        data-row="{{ row.id }}">Large
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
+                                data-target="#tops{{ row.id }}" aria-controls="list-group"
+                                aria-expanded="false">Customise</button>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
+                    <li class="list-group-item pb-4">
+                        {% for row in toppings %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="option1">
+                            <label class="form-check-label" for="subTop">{{ row }}</label>
+                        </div>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+
+    <!-- pasta tab -->
+    <div class="card-body" id="pastaBody" hidden>
+        {% for row in pasta %}
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="card text-left">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                {{ row.typ }}
+                            </div>
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-success" id="place{{ row.id }}"
+                                    name="place" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.price }}
+                                </button>
+                            </div>
+                        </div>
+                    </h5>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
     </div>
 </div>
 
