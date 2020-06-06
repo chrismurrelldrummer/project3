@@ -11,8 +11,8 @@ from .models import *
 
 
 class PizzaAdmin(admin.ModelAdmin):
-    list_display = ('typ', 'category', 'smPrice', 'lgPrice', 'numTop')
-    list_editable = ('category', 'smPrice', 'lgPrice', 'numTop')
+    list_display = ('id', 'typ', 'category', 'smPrice', 'lgPrice', 'numTop')
+    list_editable = ('typ', 'category', 'smPrice', 'lgPrice', 'numTop')
     #   actions = [change_price]
 
 

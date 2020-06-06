@@ -52,20 +52,20 @@ class Pizza(models.Model):
     numTop = models.IntegerField(default=0)
     
     def __str__(self):
-        return f"{self.typ} {self.category} {self.numTop} small = ${self.smPrice} large = ${self.lgPrice}"
+        return f"{self.typ} {self.category} {self.numTop} topping small = ${self.smPrice} large = ${self.lgPrice}"
 
 
 # pizza orders
 class PizOrder(models.Model):
     order_id = models.ManyToManyField('Orders', related_name='pizOrders')
-    typ = models.CharField(max_length=10)
-    category = models.CharField(max_length=10)
+    typ = models.ForeignKey(
+        Pizza, on_delete=models.CASCADE, related_name='pizTyp')
     size = models.CharField(max_length=5)
     price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
 
     def __str__(self):
-        return f"{self.order_id} {self.typ} {self.category} {self.size} {self.toppings} ${self.price}"
+        return f"{self.order_id} {self.typ} {self.size} {self.toppings} ${self.price}"
 
 
 # pizza toppings model
@@ -79,17 +79,29 @@ class Toppings(models.Model):
         return f"{self.typ}"
 
 
-# sub orders
+# sub items
 class Sub(models.Model):
     typ = models.CharField(max_length=64)
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+
+    def __str__(self):
+        return f"{self.typ} small = ${self.smPrice} large = ${self.smPrice}"
+
+# sub orders
+class SubOrder(models.Model):
+    order_id = models.ManyToManyField('Orders', related_name='subOrders')
+    typ = models.ForeignKey(
+        Sub, on_delete=models.CASCADE, related_name='subTyp')
     size = models.CharField(max_length=5)
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
     extras = models.ManyToManyField('Extras', related_name='subs')
 
     def __str__(self):
-        return f"{self.typ} + {self.size}"
+        return f"{self.typ} + {self.size} + {self.extras} -- ${self.price}"
 
 
-# extras orders
+# extras for subs
 class Extras(models.Model):
     typ = models.CharField(max_length=64)
 
@@ -100,7 +112,7 @@ class Extras(models.Model):
         return f"{self.typ}"
 
 
-# pasta orders
+# pasta items
 class Pasta(models.Model):
     typ = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=4, decimal_places=2)
@@ -108,8 +120,17 @@ class Pasta(models.Model):
     def __str__(self):
         return f"{self.typ} -- ${self.price}"
 
+# pasta orders
+class PastaOrder(models.Model):
+    order_id = models.ManyToManyField('Orders', related_name='pastaOrders')
+    typ = models.ForeignKey(
+        Pasta, on_delete=models.CASCADE, related_name='pastaTyp')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
 
-# salad orders
+    def __str__(self):
+        return f"{self.typ} -- ${self.price}"
+
+# salad items
 class Salad(models.Model):
     typ = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=4, decimal_places=2)
@@ -117,12 +138,32 @@ class Salad(models.Model):
     def __str__(self):
         return f"{self.typ} -- ${self.price}"
 
+# salad orders
+class SaladOrder(models.Model):
+    order_id = models.ManyToManyField('Orders', related_name='saladOrders')
+    typ = models.ForeignKey(
+        Salad, on_delete=models.CASCADE, related_name='saladTyp')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
 
-# platter orders
+    def __str__(self):
+        return f"{self.typ} -- ${self.price}"
+
+# platter items
 class Platter(models.Model):
     typ = models.CharField(max_length=64)
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+
+    def __str__(self):
+        return f"{self.typ} small = ${self.smPrice} large = ${self.smPrice}"
+
+# platter orders
+class PlatterOrder(models.Model):
+    order_id = models.ManyToManyField('Orders', related_name='platterOrders')
+    typ = models.ForeignKey(
+        Platter, on_delete=models.CASCADE, related_name='platterTyp')
     size = models.CharField(max_length=5)
-    price = models.DecimalField(max_digits=4, decimal_places=2)
+    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
 
     def __str__(self):
         return f"{self.typ} {self.size} -- ${self.price}"

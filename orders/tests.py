@@ -83,17 +83,17 @@ class ModelsTestCase(TestCase):
 
         pepperoni = Toppings.objects.get(typ='Pepperoni')
 
-        po1 = PizOrder.objects.create(typ=p1.typ, category=p1.category, price=p1.lgPrice, size='large')
+        po1 = PizOrder.objects.create(typ=p1, price=p1.lgPrice, size='large')
         po1.order_id.add(ord1)
         po1.save()
         ord1.cost = po1.price
         ord1.save()
 
-        po2 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.smPrice, size='small')
+        po2 = PizOrder.objects.create(typ=p2, price=p2.smPrice, size='small')
         po2.order_id.add(ord1)
         po2.save()
 
-        po3 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.smPrice, size='small')
+        po3 = PizOrder.objects.create(typ=p2, price=p2.smPrice, size='small')
         po3.order_id.add(ord1)
         po3.toppings.add(pepperoni)
         po3.save()
@@ -129,14 +129,14 @@ class ModelsTestCase(TestCase):
         # ------------------- first order -----------------------
 
         # order 1 - cheese pizza
-        po1 = PizOrder.objects.create(typ=p1.typ, category=p1.category, price=p1.lgPrice, size='large')
+        po1 = PizOrder.objects.create(typ=p1, price=p1.lgPrice, size='large')
         po1.order_id.add(ord1)
         po1.save()
         ord1.cost += po1.price
         ord1.save()
 
         # order 1 - 1 topping
-        po2 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.smPrice, size='small')
+        po2 = PizOrder.objects.create(typ=p2, price=p2.smPrice, size='small')
         po2.order_id.add(ord1)
         po2.toppings.add(pepperoni)
         po2.save()
@@ -149,7 +149,7 @@ class ModelsTestCase(TestCase):
         # ---------------- second order ------------------------
 
         # order 2 - 1 topping
-        po3 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.lgPrice, size='large')
+        po3 = PizOrder.objects.create(typ=p2, price=p2.lgPrice, size='large')
         po3.order_id.add(ord2)
         po3.toppings.add(pepperoni)
         po3.save()
@@ -157,7 +157,7 @@ class ModelsTestCase(TestCase):
         ord2.save()
 
         # order 2 - 2 toppings
-        po4 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.lgPrice, size='large')
+        po4 = PizOrder.objects.create(typ=p3, price=p3.lgPrice, size='large')
         po4.order_id.add(ord2)
         po4.toppings.add(pepperoni, sausage)
         po4.save()
@@ -165,7 +165,7 @@ class ModelsTestCase(TestCase):
         ord2.save()
 
         # order 2 - 2 toppings again
-        po5 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.smPrice, size='small')
+        po5 = PizOrder.objects.create(typ=p3, price=p3.smPrice, size='small')
         po5.order_id.add(ord2)
         po5.toppings.add(pepperoni, sausage)
         po5.save()
@@ -173,7 +173,7 @@ class ModelsTestCase(TestCase):
         ord2.save()
 
         # order 2 - Sicilian 3 toppings
-        po6 = PizOrder.objects.create(typ=p4.typ, category=p4.category, price=p4.smPrice, size='small')
+        po6 = PizOrder.objects.create(typ=p4, price=p4.smPrice, size='small')
         po6.order_id.add(ord2)
         po6.toppings.add(ham, mushrooms, onions)
         po6.save()
@@ -218,28 +218,28 @@ class ModelsTestCase(TestCase):
         onions = Toppings.objects.get(typ='Onions')
 
         # 1 topping
-        po3 = PizOrder.objects.create(typ=p2.typ, category=p2.category, price=p2.lgPrice, size='large')
+        po3 = PizOrder.objects.create(typ=p2, price=p2.lgPrice, size='large')
         po3.toppings.add(pepperoni)
         po3.save()
         bask1.cost += po3.price
         bask1.save()
 
         # 2 toppings
-        po4 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.lgPrice, size='large')
+        po4 = PizOrder.objects.create(typ=p3, price=p3.lgPrice, size='large')
         po4.toppings.add(pepperoni, sausage)
         po4.save()
         bask1.cost += po4.price
         bask1.save()
 
         # 2 toppings again
-        po5 = PizOrder.objects.create(typ=p3.typ, category=p3.category, price=p3.smPrice, size='small')
+        po5 = PizOrder.objects.create(typ=p3, price=p3.smPrice, size='small')
         po5.toppings.add(pepperoni, sausage)
         po5.save()
         bask1.cost += po5.price
         bask1.save()
 
         # Sicilian 3 toppings
-        po6 = PizOrder.objects.create(typ=p4.typ, category=p4.category, price=p4.smPrice, size='small')
+        po6 = PizOrder.objects.create(typ=p4, price=p4.smPrice, size='small')
         po6.toppings.add(ham, mushrooms, onions)
         po6.save()
         bask1.cost += po6.price
