@@ -15,17 +15,24 @@ Menu
 <div class="card text-center">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
+            <li class="nav-item ml-1">
                 <button class="nav-link active" id="pizzas">Pizzas</button>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-1">
                 <button class="nav-link" id="subs">Subs</button>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ml-1">
                 <button class="nav-link" id="pasta">Pasta</button>
+            </li>
+            <li class="nav-item ml-1">
+                <button class="nav-link" id="salads">Salads</button>
+            </li>
+            <li class="nav-item ml-1">
+                <button class="nav-link" id="platters">Platters</button>
             </li>
         </ul>
     </div>
+
     <!-- pizzas tab -->
     <div class="card-body" id="pizzaBody">
         {% for row in pizza %}
@@ -165,13 +172,83 @@ Menu
                                 {{ row.typ }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="place{{ row.id }}"
-                                    name="place" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                <button type="submit" class="btn btn-success" id="place{{ row.id }}" name="place"
+                                    value="{{ row.price }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.price }}
                                 </button>
                             </div>
                         </div>
                     </h5>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+
+    <!-- salad tab -->
+    <div class="card-body" id="saladBody" hidden>
+        {% for row in salads %}
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="card text-left">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                {{ row.typ }}
+                            </div>
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-success" id="place{{ row.id }}" name="place"
+                                    value="{{ row.price }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.price }}
+                                </button>
+                            </div>
+                        </div>
+                    </h5>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+
+    <!-- platter tab -->
+    <div class="card-body" id="platterBody" hidden>
+        {% for row in platters %}
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="card text-left">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                {{ row.typ }}
+                            </div>
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
+                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
+                                    value="{{ row.lgPrice }}" hidden>
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                            </div>
+                        </div>
+                    </h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-info active">
+                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
+                                        checked>Small
+                                </label>
+                                <label class="btn btn-info">
+                                    <input type="radio" name="large" id="large" value="large"
+                                        data-row="{{ row.id }}">Large
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

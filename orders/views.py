@@ -56,7 +56,7 @@ def log_in(request):
 def log_out(request):
 
     logout(request)
-    return render(request, 'orders/login.html', {'message': 'Successfully logged out!'})
+    return render(request, 'orders/login.html', {'success': 'Successfully logged out!'})
 
 
 def menu(request):
@@ -77,9 +77,11 @@ def menu(request):
                 "user": request.user,
                 "pizza": it,
                 "toppings": Toppings.objects.all(),
-                'subs': Sub.objects.all(),
-                'extras': Extras.objects.all(),
-                'pasta': Pasta.objects.all()
+                "subs": Sub.objects.all(),
+                "extras": Extras.objects.all(),
+                "pasta": Pasta.objects.all(),
+                "salads": Salad.objects.all(),
+                "platters": Platter.objects.all()
             }
             return render(request, "orders/menu.html", context)
         else:
