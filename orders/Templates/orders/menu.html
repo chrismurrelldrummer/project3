@@ -36,290 +36,275 @@ Menu
     <!-- pizzas tab -->
     <div class="card-body" id="pizzaBody">
         {% for row in pizza %}
-        <form action="{% url 'menu' %}" method="post">
-            {% csrf_token %}
-            <div class="card text-left">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <div class="row">
-                            <div class="col">
-                                {{ row.typ }} - {{ row.category }}
-                            </div>
-                            <div class="col text-right">
-                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
-                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                <button type="submit" class="btn btn-warning" id="pizlgplace{{ row.id }}"
-                                    name="pizlgplace" value="{{ row.lgPrice }}" hidden>
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-warning" id="pizlgplace{{ row.id }}"
-                                    name="pizlgplace" value="{{ row.lgPrice }}">
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
-                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                {% else %}
-                                <button type="submit" class="btn btn-danger smplace disabled" id="pizsmplace{{ row.id }}"
-                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
-                                    Currently Unavailable.
-                                </button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </h5>
+        <div class="card text-left">
+            <div class="card-body">
+                <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-info active">
-                                    <input type="radio" name="pizsmall" id="pizsmall" value="small"
-                                        data-row="{{ row.id }}" checked>Small
-                                </label>
-                                <label class="btn btn-info">
-                                    <input type="radio" name="pizlarge" id="pizlarge" value="large"
-                                        data-row="{{ row.id }}">Large
-                                </label>
-                            </div>
+                            {{ row.typ }} - {{ row.category }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
                         </div>
-                        {% if row.numTop > 0 %}
                         <div class="col text-right">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
-                                data-target="#tops{{ row.id }}" aria-controls="list-group"
-                                aria-expanded="false">Customise</button>
+                            {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            <button type="submit" class="btn btn-warning lgplace" id="pizlgplace{{ row.id }}"
+                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-warning lgplace" id="pizlgplace{{ row.id }}"
+                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-danger smplace disabled" id="pizsmplace{{ row.id }}"
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                Currently Unavailable.
+                            </button>
+                            {% endif %}
                         </div>
-                        {% endif %}
                     </div>
+                </h5>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-info active">
+                                <input type="radio" name="pizsmall" id="pizsmall" value="small" data-row="{{ row.id }}"
+                                    checked>Small
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" name="pizlarge" id="pizlarge" value="large"
+                                    data-row="{{ row.id }}">Large
+                            </label>
+                        </div>
+                    </div>
+                    {% if row.numTop > 0 %}
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
+                            data-target="#tops{{ row.id }}" aria-controls="list-group"
+                            aria-expanded="false">Customise</button>
+                    </div>
+                    {% endif %}
                 </div>
-                {% if row.numTop > 0 %}
-                <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
-                    <li class="list-group-item pb-4">
-
-                        {% for i in row.num %}
-                        <select class="custom-select col-3" name="customTop{{i}}">
-                            <option value="" selected>Select topping {{i}}...</option>
-                            {% for row in toppings %}
-                            <option value="{{ row }}">{{ row }}</option>
-                            {% endfor %}
-                        </select>
-                        {% endfor %}
-
-                    </li>
-                </ul>
-                {% endif %}
             </div>
-        </form>
+            {% if row.numTop > 0 %}
+            <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
+                <li class="list-group-item pb-4">
+
+                    {% for i in row.num %}
+                    <select class="custom-select col-3" name="customTop{{i}}" id="topSelect{{ row.id }}">
+                        <option value="" selected>Select topping {{i}}...</option>
+                        {% for row in toppings %}
+                        <option value="{{ row }}">{{ row }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+
+                </li>
+            </ul>
+            {% endif %}
+        </div>
         {% endfor %}
     </div>
 
     <!-- subs tab -->
     <div class="card-body" id="subBody" hidden>
         {% for row in subs %}
-        <form action="#" method="post">
-            {% csrf_token %}
-            <div class="card text-left">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <div class="row">
-                            <div class="col">
-                                {{ row.typ }}
-                            </div>
-                            <div class="col text-right">
-                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
-                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                <button type="submit" class="btn btn-warning" id="sublgplace{{ row.id }}"
-                                    name="sublgplace" value="{{ row.lgPrice }}" hidden>
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-warning" id="sublgplace{{ row.id }}"
-                                    name="sublgplace" value="{{ row.lgPrice }}">
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
-                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                {% else %}
-                                <button type="submit" class="btn btn-danger smplace disabled" id="subsmplace{{ row.id }}"
-                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
-                                    Currently Unavailable.
-                                </button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </h5>
+        <div class="card text-left">
+            <div class="card-body">
+                <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                {% if row.smPrice != 0.00 %}
-                                <label class="btn btn-info active">
-                                    <input type="radio" name="subsmall" id="subsmall" value="small"
-                                        data-row="{{ row.id }}" checked>Small
-                                </label>
-                                <label class="btn btn-info">
-                                    <input type="radio" name="sublarge" id="sublarge" value="large"
-                                        data-row="{{ row.id }}">Large
-                                </label>
-                                {% elif row.smPrice == 0.00 and row.lgPrice == 0.00 %}
-                                <label class="btn btn-info disabled">
-                                    <input type="radio" name="sublarge" id="sublarge" value="large"
-                                        data-row="{{ row.id }}" disabled>Currently Unavailable.
-                                </label>
-                                {% elif row.smPrice == 0.00 %}
-                                <label class="btn btn-info disabled active">
-                                    <input type="radio" name="sublarge" id="sublarge" value="large"
-                                        data-row="{{ row.id }}" disabled checked>Large
-                                </label>
-                                {% else %}
-                                <label class="btn btn-info disabled active">
-                                    <input type="radio" name="subsmall" id="subsmall" value="small"
-                                        data-row="{{ row.id }}" disabled checked>Small
-                                </label>
-                                {% endif %}
-                            </div>
+                            {{ row.typ }}
                         </div>
                         <div class="col text-right">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
-                                data-target="#tops{{ row.id }}" aria-controls="list-group"
-                                aria-expanded="false">Customise</button>
+                            {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            <button type="submit" class="btn btn-warning lgplace" id="sublgplace{{ row.id }}"
+                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-warning lgplace" id="sublgplace{{ row.id }}"
+                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-danger smplace disabled" id="subsmplace{{ row.id }}"
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                Currently Unavailable.
+                            </button>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-                <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
-                    <li class="list-group-item pb-4">
-                        {% for row in toppings %}
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="option1">
-                            <label class="form-check-label" for="subTop">{{ row }}</label>
+                </h5>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            {% if row.smPrice != 0.00 %}
+                            <label class="btn btn-info active">
+                                <input type="radio" name="subsmall" id="subsmall" value="small" data-row="{{ row.id }}"
+                                    checked>Small
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" name="sublarge" id="sublarge" value="large"
+                                    data-row="{{ row.id }}">Large
+                            </label>
+                            {% elif row.smPrice == 0.00 and row.lgPrice == 0.00 %}
+                            <label class="btn btn-info disabled">
+                                <input type="radio" name="sublarge" id="sublarge" value="large" data-row="{{ row.id }}"
+                                    disabled>Currently Unavailable.
+                            </label>
+                            {% elif row.smPrice == 0.00 %}
+                            <label class="btn btn-info disabled active">
+                                <input type="radio" name="sublarge" id="sublarge" value="large" data-row="{{ row.id }}"
+                                    disabled checked>Large
+                            </label>
+                            {% else %}
+                            <label class="btn btn-info disabled active">
+                                <input type="radio" name="subsmall" id="subsmall" value="small" data-row="{{ row.id }}"
+                                    disabled checked>Small
+                            </label>
+                            {% endif %}
                         </div>
-                        {% endfor %}
-                    </li>
-                </ul>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
+                            data-target="#tops{{ row.id }}" aria-controls="list-group"
+                            aria-expanded="false">Customise</button>
+                    </div>
+                </div>
             </div>
-        </form>
+            <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
+                <li class="list-group-item pb-4">
+                    {% for row in toppings %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="option1">
+                        <label class="form-check-label" for="subTop">{{ row }}</label>
+                    </div>
+                    {% endfor %}
+                </li>
+            </ul>
+        </div>
         {% endfor %}
     </div>
 
     <!-- pasta tab -->
     <div class="card-body" id="pastaBody" hidden>
         {% for row in pasta %}
-        <form action="#" method="post">
-            {% csrf_token %}
-            <div class="card text-left">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <div class="row">
-                            <div class="col">
-                                {{ row.typ }}
-                            </div>
-                            <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="pastaplace{{ row.id }}"
-                                    name="pastaplace" value="{{ row.price }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.price }}
-                                </button>
-                            </div>
+        <div class="card text-left">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="row">
+                        <div class="col">
+                            {{ row.typ }}
                         </div>
-                    </h5>
-                </div>
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-success place" id="pastaplace{{ row.id }}"
+                                name="pastaplace" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.price }}
+                            </button>
+                        </div>
+                    </div>
+                </h5>
             </div>
-        </form>
+        </div>
         {% endfor %}
     </div>
 
     <!-- salad tab -->
     <div class="card-body" id="saladBody" hidden>
         {% for row in salads %}
-        <form action="#" method="post">
-            {% csrf_token %}
-            <div class="card text-left">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <div class="row">
-                            <div class="col">
-                                {{ row.typ }}
-                            </div>
-                            <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="saladplace{{ row.id }}"
-                                    name="saladplace" value="{{ row.price }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.price }}
-                                </button>
-                            </div>
+        <div class="card text-left">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="row">
+                        <div class="col">
+                            {{ row.typ }}
                         </div>
-                    </h5>
-                </div>
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-success place" id="saladplace{{ row.id }}"
+                                name="saladplace" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.price }}
+                            </button>
+                        </div>
+                    </div>
+                </h5>
             </div>
-        </form>
+        </div>
         {% endfor %}
     </div>
 
     <!-- platter tab -->
     <div class="card-body" id="platterBody" hidden>
         {% for row in platters %}
-        <form action="#" method="post">
-            {% csrf_token %}
-            <div class="card text-left">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <div class="row">
-                            <div class="col">
-                                {{ row.typ }}
-                            </div>
-                            <div class="col text-right">
-                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
-                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                <button type="submit" class="btn btn-warning" id="platlgplace{{ row.id }}"
-                                    name="platlgplace" value="{{ row.lgPrice }}" hidden>
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
-                                <button type="submit" class="btn btn-warning" id="platlgplace{{ row.id }}"
-                                    name="platlgplace" value="{{ row.lgPrice }}">
-                                    &plus; ${{ row.lgPrice }}
-                                </button>
-                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
-                                <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
-                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
-                                    &plus; ${{ row.smPrice }}
-                                </button>
-                                {% else %}
-                                <button type="submit" class="btn btn-danger smplace disabled" id="platsmplace{{ row.id }}"
-                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
-                                    Currently Unavailable.
-                                </button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </h5>
+        <div class="card text-left">
+            <div class="card-body">
+                <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-info active">
-                                    <input type="radio" name="platsmall" id="platsmall" value="small"
-                                        data-row="{{ row.id }}" checked>Small
-                                </label>
-                                <label class="btn btn-info">
-                                    <input type="radio" name="platlarge" id="platlarge" value="large"
-                                        data-row="{{ row.id }}">Large
-                                </label>
-                            </div>
+                            {{ row.typ }}
+                        </div>
+                        <div class="col text-right">
+                            {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
+                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            <button type="submit" class="btn btn-warning lgplace" id="platlgplace{{ row.id }}"
+                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                            <button type="submit" class="btn btn-warning lgplace" id="platlgplace{{ row.id }}"
+                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.lgPrice }}
+                            </button>
+                            {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                            <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
+                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                &plus; ${{ row.smPrice }}
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-danger smplace disabled" id="platsmplace{{ row.id }}"
+                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                Currently Unavailable.
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </h5>
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-info active">
+                                <input type="radio" name="platsmall" id="platsmall" value="small"
+                                    data-row="{{ row.id }}" checked>Small
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" name="platlarge" id="platlarge" value="large"
+                                    data-row="{{ row.id }}">Large
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
         {% endfor %}
     </div>
 </div>

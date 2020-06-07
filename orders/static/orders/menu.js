@@ -100,11 +100,95 @@ document.addEventListener('DOMContentLoaded', () => {
             const ident = button.dataset.ident;
             const size = 'small';
 
+            let tops = [];
+
+            document.querySelectorAll(`#topSelect${ident}`).forEach((select) => {
+                tops.push(select.selectedOptions[0].innerHTML);
+            });
+
             data = JSON.stringify({
+                'item': button.name.replace('place', ''),
                 'ident': ident,
-                'size': size
+                'size': size,
+                'toppings': tops
             })
-            localStorage.setItem('basket', data);
+
+            let bask = [localStorage.getItem('basket')];
+
+            if (bask == [null]) {
+                localStorage.setItem('basket', [data]);
+            } else {
+                bask.push(data);
+                localStorage.setItem('basket', bask);
+            }
+
+            button.blur();
+
+            let quantity = document.querySelector(`#quant${ident}`);
+            quantity.innerHTML ++;
+            quantity.hidden = false;
+            
+        }
+    });
+
+    document.querySelectorAll('.lgplace').forEach((button) => {
+
+        button.onclick = () => {
+
+            const ident = button.dataset.ident;
+            const size = 'large';
+
+            let tops = [];
+
+            document.querySelectorAll(`#topSelect${ident}`).forEach((select) => {
+                tops.push(select.selectedOptions[0].innerHTML);
+            });
+
+            data = JSON.stringify({
+                'item': button.name.replace('place', ''),
+                'ident': ident,
+                'size': size,
+                'toppings': tops
+            })
+            
+            let bask = [localStorage.getItem('basket')];
+
+            if (bask == [null]) {
+                localStorage.setItem('basket', [data]);
+            } else {
+                bask.push(data);
+                localStorage.setItem('basket', bask);
+            }
+
+            button.blur();
+
+            let quantity = document.querySelector(`#quant${ident}`);
+            quantity.innerHTML ++;
+            quantity.hidden = false;
+        }
+    });
+
+    document.querySelectorAll('.place').forEach((button) => {
+
+        button.onclick = () => {
+
+            const ident = button.dataset.ident;
+
+            data = JSON.stringify({
+                'item': button.name.replace('place', ''),
+                'ident': ident
+            })
+            
+            let bask = [localStorage.getItem('basket')];
+
+            if (bask == [null]) {
+                localStorage.setItem('basket', [data]);
+            } else {
+                bask.push(data);
+                localStorage.setItem('basket', bask);
+            }
+
+            button.blur();
         }
     });
 

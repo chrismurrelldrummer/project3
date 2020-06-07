@@ -84,8 +84,18 @@ def menu(request):
                 "platters": Platter.objects.all()
             }
             return render(request, "orders/menu.html", context)
-        else:
-            # returning none *****************************************************************8
+
+    else:
+        return render(request, "orders/menu.html")
+
+
+def pizadd(request):
+
+    if request.user.is_authenticated:
+
+        if request.method == 'POST':
+
+            # returning none *****************************************************************
             typ = request.POST.get("typ")
             cat = request.POST.get("cat")
 
@@ -131,7 +141,6 @@ def menu(request):
 
     else:
         return render(request, "orders/menu.html")
-
 
 def basket(request):
     return render(request, 'orders/basket.html')
