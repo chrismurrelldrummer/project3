@@ -46,14 +46,31 @@ Menu
                                 {{ row.typ }} - {{ row.category }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
-                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
+                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
-                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
-                                    value="{{ row.lgPrice }}" hidden>
+                                <button type="submit" class="btn btn-warning" id="pizlgplace{{ row.id }}"
+                                    name="pizlgplace" value="{{ row.lgPrice }}" hidden>
                                     &plus; ${{ row.lgPrice }}
                                 </button>
+                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-warning" id="pizlgplace{{ row.id }}"
+                                    name="pizlgplace" value="{{ row.lgPrice }}">
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
+                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                {% else %}
+                                <button type="submit" class="btn btn-danger smplace disabled" id="pizsmplace{{ row.id }}"
+                                    name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                    Currently Unavailable.
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </h5>
@@ -61,11 +78,11 @@ Menu
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-info active">
-                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
-                                        checked>Small
+                                    <input type="radio" name="pizsmall" id="pizsmall" value="small"
+                                        data-row="{{ row.id }}" checked>Small
                                 </label>
                                 <label class="btn btn-info">
-                                    <input type="radio" name="large" id="large" value="large"
+                                    <input type="radio" name="pizlarge" id="pizlarge" value="large"
                                         data-row="{{ row.id }}">Large
                                 </label>
                             </div>
@@ -113,28 +130,62 @@ Menu
                                 {{ row.typ }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
-                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
+                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
-                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
-                                    value="{{ row.lgPrice }}" hidden>
+                                <button type="submit" class="btn btn-warning" id="sublgplace{{ row.id }}"
+                                    name="sublgplace" value="{{ row.lgPrice }}" hidden>
                                     &plus; ${{ row.lgPrice }}
                                 </button>
+                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-warning" id="sublgplace{{ row.id }}"
+                                    name="sublgplace" value="{{ row.lgPrice }}">
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
+                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                {% else %}
+                                <button type="submit" class="btn btn-danger smplace disabled" id="subsmplace{{ row.id }}"
+                                    name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                    Currently Unavailable.
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </h5>
                     <div class="row">
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                {% if row.smPrice != 0.00 %}
                                 <label class="btn btn-info active">
-                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
-                                        checked>Small
+                                    <input type="radio" name="subsmall" id="subsmall" value="small"
+                                        data-row="{{ row.id }}" checked>Small
                                 </label>
                                 <label class="btn btn-info">
-                                    <input type="radio" name="large" id="large" value="large"
+                                    <input type="radio" name="sublarge" id="sublarge" value="large"
                                         data-row="{{ row.id }}">Large
                                 </label>
+                                {% elif row.smPrice == 0.00 and row.lgPrice == 0.00 %}
+                                <label class="btn btn-info disabled">
+                                    <input type="radio" name="sublarge" id="sublarge" value="large"
+                                        data-row="{{ row.id }}" disabled>Currently Unavailable.
+                                </label>
+                                {% elif row.smPrice == 0.00 %}
+                                <label class="btn btn-info disabled active">
+                                    <input type="radio" name="sublarge" id="sublarge" value="large"
+                                        data-row="{{ row.id }}" disabled checked>Large
+                                </label>
+                                {% else %}
+                                <label class="btn btn-info disabled active">
+                                    <input type="radio" name="subsmall" id="subsmall" value="small"
+                                        data-row="{{ row.id }}" disabled checked>Small
+                                </label>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col text-right">
@@ -172,8 +223,8 @@ Menu
                                 {{ row.typ }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="place{{ row.id }}" name="place"
-                                    value="{{ row.price }}" data-ident="{{ row.id }}">
+                                <button type="submit" class="btn btn-success" id="pastaplace{{ row.id }}"
+                                    name="pastaplace" value="{{ row.price }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.price }}
                                 </button>
                             </div>
@@ -198,8 +249,8 @@ Menu
                                 {{ row.typ }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success" id="place{{ row.id }}" name="place"
-                                    value="{{ row.price }}" data-ident="{{ row.id }}">
+                                <button type="submit" class="btn btn-success" id="saladplace{{ row.id }}"
+                                    name="saladplace" value="{{ row.price }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.price }}
                                 </button>
                             </div>
@@ -224,14 +275,31 @@ Menu
                                 {{ row.typ }}
                             </div>
                             <div class="col text-right">
-                                <button type="submit" class="btn btn-success smplace" id="smplace{{ row.id }}"
-                                    name="smplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
+                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
                                     &plus; ${{ row.smPrice }}
                                 </button>
-                                <button type="submit" class="btn btn-warning" id="lgplace{{ row.id }}" name="lgplace"
-                                    value="{{ row.lgPrice }}" hidden>
+                                <button type="submit" class="btn btn-warning" id="platlgplace{{ row.id }}"
+                                    name="platlgplace" value="{{ row.lgPrice }}" hidden>
                                     &plus; ${{ row.lgPrice }}
                                 </button>
+                                {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
+                                <button type="submit" class="btn btn-warning" id="platlgplace{{ row.id }}"
+                                    name="platlgplace" value="{{ row.lgPrice }}">
+                                    &plus; ${{ row.lgPrice }}
+                                </button>
+                                {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
+                                <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
+                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                    &plus; ${{ row.smPrice }}
+                                </button>
+                                {% else %}
+                                <button type="submit" class="btn btn-danger smplace disabled" id="platsmplace{{ row.id }}"
+                                    name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                    Currently Unavailable.
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </h5>
@@ -239,11 +307,11 @@ Menu
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-info active">
-                                    <input type="radio" name="small" id="small" value="small" data-row="{{ row.id }}"
-                                        checked>Small
+                                    <input type="radio" name="platsmall" id="platsmall" value="small"
+                                        data-row="{{ row.id }}" checked>Small
                                 </label>
                                 <label class="btn btn-info">
-                                    <input type="radio" name="large" id="large" value="large"
+                                    <input type="radio" name="platlarge" id="platlarge" value="large"
                                         data-row="{{ row.id }}">Large
                                 </label>
                             </div>

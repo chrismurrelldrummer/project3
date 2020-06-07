@@ -2,33 +2,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // size toggles
-    document.querySelectorAll('#large').forEach((input) => {
+    document.querySelectorAll('#pizlarge').forEach((input) => {
 
         input.onchange = () => {
 
             const row = input.dataset.row;
 
-            document.querySelector(`#smplace${row}`).hidden = true;
-            document.querySelector(`#lgplace${row}`).hidden = false;
+            document.querySelector(`#pizsmplace${row}`).hidden = true;
+            document.querySelector(`#pizlgplace${row}`).hidden = false;
             input.className = 'btn btn-info active';
             input.checked = true;
-            document.querySelector('#small').className = 'btn btn-info';
-            document.querySelector('#small').checked = false;
+            document.querySelector('#pizsmall').className = 'btn btn-info';
+            document.querySelector('#pizsmall').checked = false;
         }
     });
 
-    document.querySelectorAll('#small').forEach((input) => {
+    document.querySelectorAll('#pizsmall').forEach((input) => {
 
         input.onchange = () => {
 
             const row = input.dataset.row;
 
-            document.querySelector(`#smplace${row}`).hidden = false;
-            document.querySelector(`#lgplace${row}`).hidden = true;
+            document.querySelector(`#pizsmplace${row}`).hidden = false;
+            document.querySelector(`#pizlgplace${row}`).hidden = true;
             input.className = 'btn btn-info active';
             input.checked = true;
-            document.querySelector('#large').className = 'btn btn-info';
-            document.querySelector('#large').checked = false;
+            document.querySelector('#pizlarge').className = 'btn btn-info';
+            document.querySelector('#pizlarge').checked = false;
+        }
+    });
+
+    document.querySelectorAll('#sublarge').forEach((input) => {
+
+        input.onchange = () => {
+
+            const row = input.dataset.row;
+
+            document.querySelector(`#subsmplace${row}`).hidden = true;
+            document.querySelector(`#sublgplace${row}`).hidden = false;
+            input.className = 'btn btn-info active';
+            input.checked = true;
+            document.querySelector('#subsmall').className = 'btn btn-info';
+            document.querySelector('#subsmall').checked = false;
+        }
+    });
+
+    document.querySelectorAll('#subsmall').forEach((input) => {
+
+        input.onchange = () => {
+
+            const row = input.dataset.row;
+
+            document.querySelector(`#subsmplace${row}`).hidden = false;
+            document.querySelector(`#sublgplace${row}`).hidden = true;
+            input.className = 'btn btn-info active';
+            input.checked = true;
+            document.querySelector('#sublarge').className = 'btn btn-info';
+            document.querySelector('#sublarge').checked = false;
+        }
+    });
+
+    document.querySelectorAll('#platlarge').forEach((input) => {
+
+        input.onchange = () => {
+
+            const row = input.dataset.row;
+
+            document.querySelector(`#platsmplace${row}`).hidden = true;
+            document.querySelector(`#platlgplace${row}`).hidden = false;
+            input.className = 'btn btn-info active';
+            input.checked = true;
+            document.querySelector('#platsmall').className = 'btn btn-info';
+            document.querySelector('#platsmall').checked = false;
+        }
+    });
+
+    document.querySelectorAll('#platsmall').forEach((input) => {
+
+        input.onchange = () => {
+
+            const row = input.dataset.row;
+
+            document.querySelector(`#platsmplace${row}`).hidden = false;
+            document.querySelector(`#platlgplace${row}`).hidden = true;
+            input.className = 'btn btn-info active';
+            input.checked = true;
+            document.querySelector('#platlarge').className = 'btn btn-info';
+            document.querySelector('#platlarge').checked = false;
         }
     });
 
