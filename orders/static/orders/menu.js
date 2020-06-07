@@ -106,20 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 tops.push(select.selectedOptions[0].innerHTML);
             });
 
-            data = JSON.stringify({
+            data = {
                 'item': button.name.replace('place', ''),
                 'ident': ident,
                 'size': size,
                 'toppings': tops
-            })
+            }
 
-            let bask = [localStorage.getItem('basket')];
+            let bask = JSON.parse(localStorage.getItem('basket'));
 
-            if (bask == [null]) {
-                localStorage.setItem('basket', [data]);
+            if (bask == null) {
+                localStorage.setItem('basket', JSON.stringify([data]));
             } else {
                 bask.push(data);
-                localStorage.setItem('basket', bask);
+                localStorage.setItem('basket', JSON.stringify(bask));
             }
 
             button.blur();
@@ -144,20 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 tops.push(select.selectedOptions[0].innerHTML);
             });
 
-            data = JSON.stringify({
+            data = {
                 'item': button.name.replace('place', ''),
                 'ident': ident,
                 'size': size,
                 'toppings': tops
-            })
+            }
             
-            let bask = [localStorage.getItem('basket')];
+            let bask = JSON.parse(localStorage.getItem('basket'));
 
-            if (bask == [null]) {
-                localStorage.setItem('basket', [data]);
+            if (bask == null) {
+                localStorage.setItem('basket', JSON.stringify([data]));
             } else {
                 bask.push(data);
-                localStorage.setItem('basket', bask);
+                localStorage.setItem('basket', JSON.stringify(bask));
             }
 
             button.blur();
@@ -174,18 +174,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const ident = button.dataset.ident;
 
-            data = JSON.stringify({
+            data = {
                 'item': button.name.replace('place', ''),
                 'ident': ident
-            })
+            }
             
-            let bask = [localStorage.getItem('basket')];
+            let bask = JSON.parse(localStorage.getItem('basket'));
 
-            if (bask == [null]) {
-                localStorage.setItem('basket', [data]);
+            if (bask == null) {
+                localStorage.setItem('basket', JSON.stringify([data]));
             } else {
                 bask.push(data);
-                localStorage.setItem('basket', bask);
+                localStorage.setItem('basket', JSON.stringify(bask));
             }
 
             button.blur();

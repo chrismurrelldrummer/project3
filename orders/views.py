@@ -89,58 +89,32 @@ def menu(request):
         return render(request, "orders/menu.html")
 
 
-def pizadd(request):
+def place(request):
 
     if request.user.is_authenticated:
 
         if request.method == 'POST':
 
-            # returning none *****************************************************************
-            typ = request.POST.get("typ")
-            cat = request.POST.get("cat")
-
-            toppings = []
-            maxTop = 0
-
-            # find max number of possible toppings
-            piz = Pizza.objects.all()
-
-            for row in piz:
-                num = row.numTop
-                if num > maxTop:
-                    maxTop = num
-            
-            for i in range(1,(maxTop + 1)):
-                try:
-                    top = request.POST[f"customTop{i}"]
-                    toppings.append(top)
-                except:
-                    continue
-
-            try:
-                size = request.POST["small"]
-                price = request.POST["smplace"]
-            except:
-                size = request.POST["large"]
-                price = request.POST["lgplace"]
+            ident = request.POST["ident"]
+            item = request.POST["item"]
+            size = request.POST["size"]
+            toppings = request.POST["toppings"]
 
             user = request.user
 
-            # if order/basket already active for user
-
             context = {
                 "user": user.username,
-                "typ": typ,
-                "cat": cat,
-                "tops": toppings,
+                "ident": ident,
+                "item": item,
                 "size": size,
-                "price": price
+                "tops": toppings
             }
 
-            return render(request, "orders/menu.html", {'message': context})
+            return render(request, "orders/basket.html", {'message': context})
 
     else:
-        return render(request, "orders/menu.html")
+        return HttpResponseRedirect(reverse("login"))
+
 
 def basket(request):
     return render(request, 'orders/basket.html')
