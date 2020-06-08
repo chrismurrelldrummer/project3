@@ -10,8 +10,11 @@
     <div class="input-group">
         <input type="text" id="ident" name="ident" class="form-control" value="{{ ident }}" readonly>
         <input type="text" id="item" name="item" class="form-control" value="{{ item }}" readonly>
+        <input type="text" id="type" name="type" class="form-control" value="{{ type }}" readonly>
+        <input type="text" id="category" name="category" class="form-control" value="{{ category }}" readonly>
         <input type="text" id="size" name="size" class="form-control" value="{{ size }}" readonly>
-        <input type="text" id="toppings" name="toppings" class="form-control" value="{{ toppings }}" readonly>
+        <input type="text" id="toppings" name="toppings" class="form-control" value="{{ toppings }}" readonly style="overflow: auto;">
+        <input type="text" id="price" name="price" class="form-control" value="${{ price }}" readonly>
     </div>
 </script>
 {% endverbatim %}
@@ -31,8 +34,11 @@ My Basket
         <div class="input-group">
             <input type="text" id="ident" name="ident" class="form-control" value="Item ID" readonly>
             <input type="text" id="item" name="item" class="form-control" value="Item Type" readonly>
+            <input type="text" id="type" name="type" class="form-control" value="Type" readonly>
+            <input type="text" id="category" name="category" class="form-control" value="Category" readonly>
             <input type="text" id="size" name="size" class="form-control" value="Size" readonly>
             <input type="text" id="toppings" name="toppings" class="form-control" value="Extras/Toppings" readonly>
+            <input type="text" id="price" name="price" class="form-control" value="Price" readonly>
         </div>
     </div>
     <div class="form-group">

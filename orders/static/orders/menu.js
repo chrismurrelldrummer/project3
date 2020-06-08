@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const ident = button.dataset.ident;
             const size = 'small';
+            const price = button.value;
 
             let tops = [];
 
@@ -153,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'type': button.dataset.typ,
                         'category': button.dataset.cat,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
                 case 'subsmplace':
@@ -170,7 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
                 case 'plattersmplace':
@@ -179,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
             }
@@ -210,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const ident = button.dataset.ident;
             const size = 'large';
+            const price = button.value;
 
             let tops = [];
 
@@ -227,7 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'type': button.dataset.typ,
                         'category': button.dataset.cat,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
                 case 'sublgplace':
@@ -244,7 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
                 case 'platterlgplace':
@@ -253,7 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops
+                        'toppings': tops,
+                        'price': price
                     }
                     break;
             }
@@ -280,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.onclick = () => {
 
             const ident = button.dataset.ident;
+            const price = button.value;
 
             const el = button.name;
 
@@ -289,7 +298,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'item': 'Pasta',
                         'ident': ident,
                         'type': button.dataset.typ,
-                        'size': size
+                        'size': size,
+                        'price': price
                     }
                     break;
                 case 'saladplace':
@@ -297,7 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         'item': 'Salad',
                         'ident': ident,
                         'type': button.dataset.typ,
-                        'size': size
+                        'size': size,
+                        'price': price
                     }
                     break;
             }

@@ -19,8 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = template1({
                 'ident': bask[i]['ident'],
                 'item': bask[i]['item'],
+                'type': bask[i]['type'],
+                'category': bask[i]['category'],
                 'size': bask[i]['size'],
-                'toppings': 'No extra toppings.'
+                'toppings': 'No extra toppings.',
+                'price': bask[i]['price']
             });
 
             document.querySelector('#basketList').innerHTML += content;
@@ -42,8 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = template1({
                 'ident': bask[i]['ident'],
                 'item': bask[i]['item'],
+                'type': bask[i]['type'],
+                'category': bask[i]['category'],
                 'size': bask[i]['size'],
-                'toppings': toppings
+                'toppings': toppings,
+                'price': bask[i]['price']
             });
 
             document.querySelector('#basketList').innerHTML += content;
