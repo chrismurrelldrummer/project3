@@ -41,31 +41,37 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }} - {{ row.category }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
+                            {{ row.typ }} - {{ row.category }} <span class="badge badge-info" id="quant{{ row.id }}"
+                                hidden>0</span>
                         </div>
                         <div class="col text-right">
                             {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
-                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" data-cat="{{ row.category }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             <button type="submit" class="btn btn-warning lgplace" id="pizlgplace{{ row.id }}"
-                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" data-cat="{{ row.category }}" hidden>
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-warning lgplace" id="pizlgplace{{ row.id }}"
-                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                name="pizlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" data-cat="{{ row.category }}">
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="pizsmplace{{ row.id }}"
-                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" data-cat="{{ row.category }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             {% else %}
                             <button type="submit" class="btn btn-danger smplace disabled" id="pizsmplace{{ row.id }}"
-                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                name="pizsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" data-cat="{{ row.category }}" disabled>
                                 Currently Unavailable.
                             </button>
                             {% endif %}
@@ -122,31 +128,36 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }}
+                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
-                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             <button type="submit" class="btn btn-warning lgplace" id="sublgplace{{ row.id }}"
-                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" hidden>
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-warning lgplace" id="sublgplace{{ row.id }}"
-                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                name="sublgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="subsmplace{{ row.id }}"
-                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             {% else %}
                             <button type="submit" class="btn btn-danger smplace disabled" id="subsmplace{{ row.id }}"
-                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}" disabled>
+                                name="subsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" disabled>
                                 Currently Unavailable.
                             </button>
                             {% endif %}
@@ -185,19 +196,22 @@ Menu
                     </div>
                     <div class="col text-right">
                         <button type="button" class="btn btn-outline-primary" data-toggle="collapse"
-                            data-target="#tops{{ row.id }}" aria-controls="list-group"
+                            data-target="#extras{{ row.id }}" aria-controls="list-group"
                             aria-expanded="false">Customise</button>
                     </div>
                 </div>
             </div>
-            <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
+            <ul class="list-group list-group-flush collapse" id="extras{{ row.id }}" data-cat="{{ row.category }}">
                 <li class="list-group-item pb-4">
-                    {% for row in extras %}
+                    
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="{{ row }}">
-                        <label class="form-check-label" for="subTop{{ row.id }}">{{ row }}</label>
+                        {% for row in extras %}
+                        <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="{{ row }}"
+                            data-price="{{ row.price }}">
+                        <label class="form-check-label mr-2" for="subTop{{ row.id }}">{{ row }}</label>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    
                 </li>
             </ul>
         </div>
@@ -212,11 +226,12 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }}
+                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             <button type="submit" class="btn btn-success place" id="pastaplace{{ row.id }}"
-                                name="pastaplace" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                name="pastaplace" value="{{ row.price }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.price }}
                             </button>
                         </div>
@@ -239,7 +254,8 @@ Menu
                         </div>
                         <div class="col text-right">
                             <button type="submit" class="btn btn-success place" id="saladplace{{ row.id }}"
-                                name="saladplace" value="{{ row.price }}" data-ident="{{ row.id }}">
+                                name="saladplace" value="{{ row.price }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.price }}
                             </button>
                         </div>
@@ -258,26 +274,30 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }}
+                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
-                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             <button type="submit" class="btn btn-warning lgplace" id="platlgplace{{ row.id }}"
-                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}" hidden>
+                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}" hidden>
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice == 0.00 and row.lgPrice != 0.00 %}
                             <button type="submit" class="btn btn-warning lgplace" id="platlgplace{{ row.id }}"
-                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}">
+                                name="platlgplace" value="{{ row.lgPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.lgPrice }}
                             </button>
                             {% elif row.smPrice != 0.00 and row.lgPrice == 0.00 %}
                             <button type="submit" class="btn btn-success smplace" id="platsmplace{{ row.id }}"
-                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}">
+                                name="platsmplace" value="{{ row.smPrice }}" data-ident="{{ row.id }}"
+                                data-typ="{{ row.typ }}">
                                 &plus; ${{ row.smPrice }}
                             </button>
                             {% else %}

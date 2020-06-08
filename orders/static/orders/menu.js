@@ -5,15 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         input.onchange = () => {
 
-            const row = input.parentNode.parentNode.parentNode.id.replace('tops', '');
+            const row = input.parentNode.parentNode.parentNode.id.replace('extras', '');
+            const price = input.dataset.price;
 
             if (input.checked == true) {
-                
+
                 let sm = parseFloat(document.querySelector(`#subsmplace${row}`).value);
                 let lg = parseFloat(document.querySelector(`#sublgplace${row}`).value);
 
-                sm += 0.50;
-                lg += 0.50;
+                sm += parseFloat(price);
+                lg += parseFloat(price);
 
                 document.querySelector(`#subsmplace${row}`).value = sm.toFixed(2);
                 document.querySelector(`#sublgplace${row}`).value = lg.toFixed(2);
@@ -25,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let sm = parseFloat(document.querySelector(`#subsmplace${row}`).value);
                 let lg = parseFloat(document.querySelector(`#sublgplace${row}`).value);
 
-                sm -= 0.50;
-                lg -= 0.50;
+                sm -= parseFloat(price);
+                lg -= parseFloat(price);
 
                 document.querySelector(`#subsmplace${row}`).value = sm.toFixed(2);
                 document.querySelector(`#sublgplace${row}`).value = lg.toFixed(2);
@@ -142,12 +143,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 tops.push(select.selectedOptions[0].innerHTML);
             });
 
-            data = {
-                'item': button.name.replace('place', ''),
-                'ident': ident,
-                'size': size,
-                'toppings': tops
+            const el = button.name;
+
+            switch (el) {
+                case 'pizsmplace':
+                    data = {
+                        'item': 'Pizza',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'category': button.dataset.cat,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
+                case 'subsmplace':
+
+                    document.querySelector(`#extras${ident}`).firstElementChild.firstElementChild.childNodes.forEach((input) => {
+
+                        if (input.checked == true) {
+                            tops.push(input.value);
+                        }
+                    });
+
+                    data = {
+                        'item': 'Sub',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
+                case 'plattersmplace':
+                    data = {
+                        'item': 'Platter',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
             }
+
+
 
             let bask = JSON.parse(localStorage.getItem('basket'));
 
@@ -180,11 +217,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 tops.push(select.selectedOptions[0].innerHTML);
             });
 
-            data = {
-                'item': button.name.replace('place', ''),
-                'ident': ident,
-                'size': size,
-                'toppings': tops
+            const el = button.name;
+
+            switch (el) {
+                case 'pizlgplace':
+                    data = {
+                        'item': 'Pizza',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'category': button.dataset.cat,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
+                case 'sublgplace':
+
+                    document.querySelector(`#extras${ident}`).firstElementChild.firstElementChild.childNodes.forEach((input) => {
+
+                        if (input.checked == true) {
+                            tops.push(input.value);
+                        }
+                    });
+
+                    data = {
+                        'item': 'Sub',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
+                case 'platterlgplace':
+                    data = {
+                        'item': 'Platter',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size,
+                        'toppings': tops
+                    }
+                    break;
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
@@ -210,9 +281,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const ident = button.dataset.ident;
 
-            data = {
-                'item': button.name.replace('place', ''),
-                'ident': ident
+            const el = button.name;
+
+            switch (el) {
+                case 'pastaplace':
+                    data = {
+                        'item': 'Pasta',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size
+                    }
+                    break;
+                case 'saladplace':
+                    data = {
+                        'item': 'Salad',
+                        'ident': ident,
+                        'type': button.dataset.typ,
+                        'size': size
+                    }
+                    break;
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
