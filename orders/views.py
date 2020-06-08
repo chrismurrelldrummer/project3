@@ -110,7 +110,7 @@ def place(request):
                 "tops": toppings
             }
 
-            return render(request, "orders/basket.html", {'message': context})
+            return render(request, "orders/basket.html", {'message': data})
 
     else:
         return HttpResponseRedirect(reverse("login"))

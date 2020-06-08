@@ -192,10 +192,10 @@ Menu
             </div>
             <ul class="list-group list-group-flush collapse" id="tops{{ row.id }}" data-cat="{{ row.category }}">
                 <li class="list-group-item pb-4">
-                    {% for row in toppings %}
+                    {% for row in extras %}
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="option1">
-                        <label class="form-check-label" for="subTop">{{ row }}</label>
+                        <input class="form-check-input" type="checkbox" id="subTop{{ row.id }}" value="{{ row }}">
+                        <label class="form-check-label" for="subTop{{ row.id }}">{{ row }}</label>
                     </div>
                     {% endfor %}
                 </li>

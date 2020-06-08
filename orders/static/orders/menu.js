@@ -1,5 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // sub extras price change
+    document.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+
+        input.onchange = () => {
+
+            const row = input.parentNode.parentNode.parentNode.id.replace('tops', '');
+
+            if (input.checked == true) {
+                
+                let sm = parseFloat(document.querySelector(`#subsmplace${row}`).value);
+                let lg = parseFloat(document.querySelector(`#sublgplace${row}`).value);
+
+                sm += 0.50;
+                lg += 0.50;
+
+                document.querySelector(`#subsmplace${row}`).value = sm.toFixed(2);
+                document.querySelector(`#sublgplace${row}`).value = lg.toFixed(2);
+
+                document.querySelector(`#subsmplace${row}`).innerHTML = `+ $${sm.toFixed(2)}`;
+                document.querySelector(`#sublgplace${row}`).innerHTML = `+ $${lg.toFixed(2)}`;
+            } else {
+
+                let sm = parseFloat(document.querySelector(`#subsmplace${row}`).value);
+                let lg = parseFloat(document.querySelector(`#sublgplace${row}`).value);
+
+                sm -= 0.50;
+                lg -= 0.50;
+
+                document.querySelector(`#subsmplace${row}`).value = sm.toFixed(2);
+                document.querySelector(`#sublgplace${row}`).value = lg.toFixed(2);
+
+                document.querySelector(`#subsmplace${row}`).innerHTML = `+ $${sm.toFixed(2)}`;
+                document.querySelector(`#sublgplace${row}`).innerHTML = `+ $${lg.toFixed(2)}`;
+            }
+        }
+    });
 
     // size toggles
     document.querySelectorAll('#pizlarge').forEach((input) => {
@@ -125,9 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
             button.blur();
 
             let quantity = document.querySelector(`#quant${ident}`);
-            quantity.innerHTML ++;
+            quantity.innerHTML++;
             quantity.hidden = false;
-            
+
         }
     });
 
@@ -150,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'size': size,
                 'toppings': tops
             }
-            
+
             let bask = JSON.parse(localStorage.getItem('basket'));
 
             if (bask == null) {
@@ -163,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.blur();
 
             let quantity = document.querySelector(`#quant${ident}`);
-            quantity.innerHTML ++;
+            quantity.innerHTML++;
             quantity.hidden = false;
         }
     });
@@ -178,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'item': button.name.replace('place', ''),
                 'ident': ident
             }
-            
+
             let bask = JSON.parse(localStorage.getItem('basket'));
 
             if (bask == null) {
@@ -217,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#pasta').className = 'nav-link';
         document.querySelector('#salads').className = 'nav-link';
         document.querySelector('#platters').className = 'nav-link';
-        
+
         document.querySelector('#pizzaBody').hidden = true;
         document.querySelector('#subBody').hidden = false;
         document.querySelector('#pastaBody').hidden = true;
@@ -234,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#pasta').className = 'nav-link active';
         document.querySelector('#salads').className = 'nav-link';
         document.querySelector('#platters').className = 'nav-link';
-        
+
         document.querySelector('#pizzaBody').hidden = true;
         document.querySelector('#subBody').hidden = true;
         document.querySelector('#pastaBody').hidden = false;
@@ -251,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#pasta').className = 'nav-link';
         document.querySelector('#salads').className = 'nav-link active';
         document.querySelector('#platters').className = 'nav-link';
-        
+
         document.querySelector('#pizzaBody').hidden = true;
         document.querySelector('#subBody').hidden = true;
         document.querySelector('#pastaBody').hidden = true;
@@ -268,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#pasta').className = 'nav-link';
         document.querySelector('#salads').className = 'nav-link';
         document.querySelector('#platters').className = 'nav-link active';
-        
+
         document.querySelector('#pizzaBody').hidden = true;
         document.querySelector('#subBody').hidden = true;
         document.querySelector('#pastaBody').hidden = true;
