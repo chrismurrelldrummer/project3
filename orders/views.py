@@ -191,9 +191,7 @@ def basket(request):
 
     orders = Orders.objects.filter(user_id=user, active='N')
 
-    ord11 = Orders.objects.get(pk=11)
-    pizzas = ord11.pizItems.all()
-
+    pizzas = PizOrder.objects.all()
     active = Orders.objects.filter(user_id=user, active='Y').order_by('-time_placed')
     expired = Orders.objects.filter(user_id=user, active='N').order_by('-time_placed')
 

@@ -54,7 +54,7 @@ My Basket
     <div class="card-body">
         <h5 class="card-title">Order: {{row}}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ row }}</h6>
-        <p class="card-text">Items: {{ row }}</p>
+        <p class="card-text">Items:</p>
     </div>
 </div>
 {% endfor %}
@@ -65,7 +65,8 @@ My Basket
     <div class="card-body">
         <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items: {{ row }}</p>
+        <p class="card-text">Items:
+        </p>
     </div>
 </div>
 {% endfor %}
@@ -76,7 +77,7 @@ My Basket
     <div class="card-body">
         <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items: {{ row }}</p>
+        <p class="card-text">Items:</p>
     </div>
 </div>
 {% endfor %}
