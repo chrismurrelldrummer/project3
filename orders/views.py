@@ -179,14 +179,6 @@ def place(request):
                 else:
                     continue
 
-            context = {
-                "user": user.username,
-                "ident": ident,
-                "item": item,
-                "size": size,
-                "tops": toppings
-            }
-
             return HttpResponseRedirect(reverse("basket"))
 
     else:
@@ -197,10 +189,19 @@ def basket(request):
 
     user = request.user
 
+    orders = Orders.objects.filter(user_id=user, active='N')
+
+    ord11 = Orders.objects.get(pk=11)
+    pizzas = ord11.pizItems.all()
+
+    active = Orders.objects.filter(user_id=user, active='Y').order_by('-time_placed')
+    expired = Orders.objects.filter(user_id=user, active='N').order_by('-time_placed')
+
     context = {
         "user": user,
-        "active": Orders.objects.filter(user_id=user, active='Y'),
-        "expired": Orders.objects.filter(user_id=user, active='N')
+        "active": active,
+        "expired": expired,
+        "test": pizzas
     }
 
     return render(request, 'orders/basket.html', context)

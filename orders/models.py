@@ -14,7 +14,7 @@ class Orders(models.Model):
     pastaItems = models.ManyToManyField('PastaOrder', blank=True, related_name='pastaItems')
     saladItems = models.ManyToManyField('SaladOrder', blank=True, related_name='saladItems')
     platItems = models.ManyToManyField('PlatterOrder', blank=True, related_name='platItems')
-    time_placed = models.TimeField(auto_now_add=True)
+    time_placed = models.DateTimeField(auto_now_add=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2, default=00.00)
     active = models.CharField(max_length=1, default='Y')
 
