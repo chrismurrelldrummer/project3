@@ -2,8 +2,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Orders, Basket, Pizza, PizOrder, Toppings, Sub, Extras, Pasta, Salad, Platter
+from .models import *
 
+import json
 
 
 def home(request):
@@ -95,12 +96,88 @@ def place(request):
 
         if request.method == 'POST':
 
-            ident = request.POST["ident"]
-            item = request.POST["item"]
-            size = request.POST["size"]
-            toppings = request.POST["toppings"]
-
             user = request.user
+            data = request.POST['hiddenData']
+
+            data = json.loads(data)
+
+            ord1 = Orders.objects.create(user_id=user)
+
+            for row in data:
+                if row['item'] == 'Pizza':
+                    p1 = Pizza.objects.get(id=row['ident'])
+
+                    po1 = PizOrder.objects.create(
+                        typ=p1, price=float(row['price']), size=row['size'])
+                    po1.order_id.add(ord1)
+                    po1.save()
+
+                    if row['toppings'] != []:
+                        for row in row['toppings']:
+                            row = Toppings.objects.get(typ=row)
+                            po1.toppings.add(row)
+                            po1.save()
+
+                    ord1.cost += po1.price
+                    ord1.pizItems.add(po1)
+                    ord1.save()
+
+                elif row['item'] == 'Sub':
+                    s1 = Sub.objects.get(id=row['ident'])
+
+                    so1 = SubOrder.objects.create(
+                        typ=s1, price=float(row['price']), size=row['size'])
+                    so1.order_id.add(ord1)
+                    so1.save()
+
+                    if row['toppings'] != []:
+                        for row in row['toppings']:
+                            row = Extras.objects.get(typ=row)
+                            so1.extras.add(row)
+                            so1.save()
+
+                    ord1.cost += so1.price
+                    ord1.subItems.add(so1)
+                    ord1.save()
+
+                elif row['item'] == 'Pasta':
+                    pasta1 = Pasta.objects.get(id=row['ident'])
+
+                    paO1 = PastaOrder.objects.create(
+                        typ=pasta1, price=pasta1.price)
+                    paO1.order_id.add(ord1)
+                    paO1.save()
+
+                    ord1.cost += pasta1.price
+                    ord1.pastaItems.add(pasta1)
+                    ord1.save()
+
+                elif row['item'] == 'Salad':
+                    salad1 = salad.objects.get(id=row['ident'])
+
+                    salO1 = SaladOrder.objects.create(
+                        typ=salad1, price=salad1.price)
+                    salO1.order_id.add(ord1)
+                    salO1.save()
+
+                    ord1.cost += salad1.price
+                    ord1.saladItems.add(salad1)
+                    ord1.save()
+
+                elif row['item'] == 'Platter':
+                    plat1 = Platter.objects.get(id=row['ident'])
+
+                    plato1 = PlatterOrder.objects.create(
+                        typ=s1, price=float(row['price']), size=row['size'])
+                    plato1.order_id.add(ord1)
+                    plato1.save()
+
+                    ord1.cost += plato1.price
+                    ord1.platItems.add(plato1)
+                    ord1.save()
+
+                else:
+                    continue
 
             context = {
                 "user": user.username,
@@ -110,11 +187,20 @@ def place(request):
                 "tops": toppings
             }
 
-            return render(request, "orders/basket.html", {'message': data})
+            return HttpResponseRedirect(reverse("basket"))
 
     else:
         return HttpResponseRedirect(reverse("login"))
 
 
 def basket(request):
-    return render(request, 'orders/basket.html')
+
+    user = request.user
+
+    context = {
+        "user": user,
+        "active": Orders.objects.filter(user_id=user, active='Y'),
+        "expired": Orders.objects.filter(user_id=user, active='N')
+    }
+
+    return render(request, 'orders/basket.html', context)

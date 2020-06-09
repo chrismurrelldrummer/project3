@@ -63,6 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    document.querySelector('#placeOrder').onclick = (button) => {
+
+        document.querySelector('#hiddenData').value = localStorage.getItem('basket');
+        localStorage.removeItem('basket');
+    };
+
     document.querySelector('#deleteOrder').onclick = (button) => {
 
         document.querySelector('#basketList').innerHTML = 'You do not have any items in your basket!';
