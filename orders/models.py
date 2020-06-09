@@ -10,12 +10,12 @@ class Orders(models.Model):
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='orders')
     pizItems = models.ManyToManyField('PizOrder', blank=True, related_name='pizItems')
-    subItems = models.ManyToManyField('Sub', blank=True, related_name='subItems')
-    pastaItems = models.ManyToManyField('Pasta', blank=True, related_name='pastaItems')
-    saladItems = models.ManyToManyField('Salad', blank=True, related_name='saladItems')
-    platItems = models.ManyToManyField('Platter', blank=True, related_name='platItems')
+    subItems = models.ManyToManyField('SubOrder', blank=True, related_name='subItems')
+    pastaItems = models.ManyToManyField('PastaOrder', blank=True, related_name='pastaItems')
+    saladItems = models.ManyToManyField('SaladOrder', blank=True, related_name='saladItems')
+    platItems = models.ManyToManyField('PlatterOrder', blank=True, related_name='platItems')
     time_placed = models.TimeField(auto_now_add=True)
-    cost = models.DecimalField(max_digits=6, decimal_places=2, default='00.00')
+    cost = models.DecimalField(max_digits=6, decimal_places=2, default=00.00)
     active = models.CharField(max_length=1, default='Y')
 
     class meta:
@@ -25,30 +25,12 @@ class Orders(models.Model):
         return f"{self.order_id} {self.user_id} {self.time_placed} {self.active} -- ${self.cost}"
 
 
-# basket (temporary orders)
-class Basket(models.Model):
-    user_id = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='basket')
-    pizItems = models.ManyToManyField('PizOrder', blank=True, related_name='pizBask')
-    subItems = models.ManyToManyField('Sub', blank=True, related_name='subBask')
-    pastaItems = models.ManyToManyField('Pasta', blank=True, related_name='pastaBask')
-    saladItems = models.ManyToManyField('Salad', blank=True, related_name='saladBask')
-    platItems = models.ManyToManyField('Platter', blank=True, related_name='platBask')
-    cost = models.DecimalField(max_digits=6, decimal_places=2, default='00.00')
-
-    class meta:
-        verbose_name_plural = 'Basket'
-    
-    def __str__(self):
-        return f"{self.user_id} -- ${self.cost}"
-
-
 # pizza menu model to include regular and sicilian
 class Pizza(models.Model):
     typ = models.CharField(max_length=10)
     category = models.CharField(max_length=10)
-    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
-    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
     numTop = models.IntegerField(default=0)
     
     def __str__(self):
@@ -61,7 +43,7 @@ class PizOrder(models.Model):
     typ = models.ForeignKey(
         Pizza, on_delete=models.CASCADE, related_name='pizTyp')
     size = models.CharField(max_length=5)
-    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
 
     def __str__(self):
@@ -82,8 +64,8 @@ class Toppings(models.Model):
 # sub items
 class Sub(models.Model):
     typ = models.CharField(max_length=64)
-    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
-    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
         return f"{self.typ} small = ${self.smPrice} large = ${self.smPrice}"
@@ -94,7 +76,7 @@ class SubOrder(models.Model):
     typ = models.ForeignKey(
         Sub, on_delete=models.CASCADE, related_name='subTyp')
     size = models.CharField(max_length=5)
-    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
     extras = models.ManyToManyField('Extras', related_name='subs')
 
     def __str__(self):
@@ -126,7 +108,7 @@ class PastaOrder(models.Model):
     order_id = models.ManyToManyField('Orders', related_name='pastaOrders')
     typ = models.ForeignKey(
         Pasta, on_delete=models.CASCADE, related_name='pastaTyp')
-    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
         return f"{self.typ} -- ${self.price}"
@@ -144,7 +126,7 @@ class SaladOrder(models.Model):
     order_id = models.ManyToManyField('Orders', related_name='saladOrders')
     typ = models.ForeignKey(
         Salad, on_delete=models.CASCADE, related_name='saladTyp')
-    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
         return f"{self.typ} -- ${self.price}"
@@ -152,8 +134,8 @@ class SaladOrder(models.Model):
 # platter items
 class Platter(models.Model):
     typ = models.CharField(max_length=64)
-    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
-    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    smPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
         return f"{self.typ} small = ${self.smPrice} large = ${self.smPrice}"
@@ -164,7 +146,7 @@ class PlatterOrder(models.Model):
     typ = models.ForeignKey(
         Platter, on_delete=models.CASCADE, related_name='platterTyp')
     size = models.CharField(max_length=5)
-    price = models.DecimalField(max_digits=4, decimal_places=2, default='00.00')
+    price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
         return f"{self.typ} {self.size} -- ${self.price}"

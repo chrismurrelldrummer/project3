@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from django.contrib.auth.models import User
-from orders.models import Orders, Basket, Pizza, PizOrder, Toppings, Sub, Extras, Pasta, Salad, Platter
+from orders.models import *
 
 # Create your tests here.
 class ModelsTestCase(TestCase):

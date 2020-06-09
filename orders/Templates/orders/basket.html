@@ -7,14 +7,11 @@
 <!-- Item temlate 1 -->
 {% verbatim %}
 <script id="basketItem1" type="text/x-handlebars-template">
-    <div class="input-group">
-        <input type="text" id="ident" name="ident" class="form-control" value="{{ ident }}" readonly>
-        <input type="text" id="item" name="item" class="form-control" value="{{ item }}" readonly>
-        <input type="text" id="type" name="type" class="form-control" value="{{ type }}" readonly>
-        <input type="text" id="category" name="category" class="form-control" value="{{ category }}" readonly>
-        <input type="text" id="size" name="size" class="form-control" value="{{ size }}" readonly>
-        <input type="text" id="toppings" name="toppings" class="form-control" value="{{ toppings }}" readonly style="overflow: auto;">
-        <input type="text" id="price" name="price" class="form-control" value="${{ price }}" readonly>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ item }}: {{ type }} - {{ category }} - {{ size }} -- ${{ price }}</h5>
+            <p class="card-text">Toppings: {{ toppings }}</p>
+        </div>
     </div>
 </script>
 {% endverbatim %}
@@ -28,27 +25,49 @@ My Basket
 {% block main %}
 <h1>My Basket</h1>
 
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="confirmation" hidden></div>
+
 <form action="place" method="post">
     {% csrf_token %}
     <div class="form-group" id="basketList">
-        <div class="input-group">
-            <input type="text" id="ident" name="ident" class="form-control" value="Item ID" readonly>
-            <input type="text" id="item" name="item" class="form-control" value="Item Type" readonly>
-            <input type="text" id="type" name="type" class="form-control" value="Type" readonly>
-            <input type="text" id="category" name="category" class="form-control" value="Category" readonly>
-            <input type="text" id="size" name="size" class="form-control" value="Size" readonly>
-            <input type="text" id="toppings" name="toppings" class="form-control" value="Extras/Toppings" readonly>
-            <input type="text" id="price" name="price" class="form-control" value="Price" readonly>
-        </div>
+        <!-- handlebars template content in here -->
     </div>
+
+    <!-- hidden field containing basket data for post to server -->
+    <input type="text" id="hiddenData" name="hiddenData" value="" hidden>
+    <!-- ----------End of hidden field------------------ -->
+
     <div class="form-group">
         <button type="submit" class="btn btn-success" id="placeOrder">
             Place my Order
         </button>
-        <button type="submit" class="btn btn-warning" id="deleteOrder">
+        <button type="button" class="btn btn-warning" id="deleteOrder">
             Delete all items
         </button>
     </div>
 </form>
+
+<!-- Previous Orders -->
+<h5>Currently Active:</h5>
+{% for row in active %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Order: {{row}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ row }}</h6>
+        <p class="card-text">Items: {{ row }}</p>
+    </div>
+</div>
+{% endfor %}
+
+<h5>Expired:</h5>
+{% for row in expired %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Order: {{row}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ row }}</h6>
+        <p class="card-text">Items: {{ row }}</p>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock %}
