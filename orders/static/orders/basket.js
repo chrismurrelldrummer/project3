@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
         div.innerHTML = 'You do not have any items in your basket!';
         document.querySelector('#placeOrder').disabled = true;
         document.querySelector('#deleteOrder').disabled = true;
+        document.querySelector('#total').hidden = true;
     } else {
+
+        let subtotal = localStorage.getItem('subtotal');
+        document.querySelector('#subtotal').innerHTML = parseFloat(subtotal).toFixed(2);
 
         for (i in bask) {
 
@@ -67,12 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector('#hiddenData').value = localStorage.getItem('basket');
         localStorage.removeItem('basket');
+        localStorage.removeItem('subtotal');
     };
 
     document.querySelector('#deleteOrder').onclick = (button) => {
 
         document.querySelector('#basketList').innerHTML = 'You do not have any items in your basket!';
         localStorage.removeItem('basket');
+        localStorage.removeItem('subtotal');
         document.querySelector('#placeOrder').disabled = true;
         document.querySelector('#deleteOrder').disabled = true;
         document.querySelector('#confirmation').hidden = false;

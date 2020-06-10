@@ -187,7 +187,7 @@ def place(request):
 
 def basket(request):
 
-    user = request.user
+    user = request.user.email
 
     orders = Orders.objects.filter(user_id=user, active='N')
 

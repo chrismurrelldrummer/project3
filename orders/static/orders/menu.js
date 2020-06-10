@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let tops = [];
 
             document.querySelectorAll(`#topSelect${ident}`).forEach((select) => {
-                tops.push(select.selectedOptions[0].innerHTML);
+                tops.push(select.selectedOptions[0].innerText);
             });
 
             const el = button.name;
@@ -188,15 +188,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
             }
 
-
-
             let bask = JSON.parse(localStorage.getItem('basket'));
+            let subtotal = parseFloat(localStorage.getItem('subtotal'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
+                localStorage.setItem('subtotal', data.price);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
+
+                subtotal += parseFloat(data.price);
+                localStorage.setItem('subtotal', subtotal);
             }
 
             button.blur();
@@ -267,12 +270,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
+            let subtotal = parseFloat(localStorage.getItem('subtotal'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
+                localStorage.setItem('subtotal', data.price);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
+                subtotal += parseFloat(data.price);
+                localStorage.setItem('subtotal', subtotal);
             }
 
             button.blur();
@@ -314,12 +321,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
+            let subtotal = parseFloat(localStorage.getItem('subtotal'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
+                localStorage.setItem('subtotal', data.price);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
+                subtotal += parseFloat(data.price);
+                localStorage.setItem('subtotal', subtotal);
             }
 
             button.blur();

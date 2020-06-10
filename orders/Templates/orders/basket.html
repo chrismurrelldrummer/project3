@@ -32,6 +32,9 @@ My Basket
     <div class="form-group" id="basketList">
         <!-- handlebars template content in here -->
     </div>
+    <div class="form-group" id="total">
+        <h3 class="text-right">Subtotal: $<span id="subtotal"></span></h3>
+    </div>
 
     <!-- hidden field containing basket data for post to server -->
     <input type="text" id="hiddenData" name="hiddenData" value="" hidden>
@@ -48,17 +51,6 @@ My Basket
 </form>
 
 <!-- Previous Orders -->
-<h5>Test:</h5>
-{% for row in test %}
-<div class="card mb-2">
-    <div class="card-body">
-        <h5 class="card-title">Order: {{row}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ row }}</h6>
-        <p class="card-text">Items:</p>
-    </div>
-</div>
-{% endfor %}
-
 <h5>Currently Active:</h5>
 {% for row in active %}
 <div class="card mb-2">

@@ -10,7 +10,6 @@ def order_complete(modeladmin, request, queryset):
 order_complete.short_description = "Mark order as complete"
 
 class OrderAdmin(admin.ModelAdmin):
-    # list_display = ('order_id', 'user_id', 'pizItems', 'subItems', 'pastaItems', 'saladItems', 'platItems', 'time_placed', 'cost', 'active')
     list_display = ('order_id', 'user_id', 'time_placed', 'cost', 'active')
     actions = [order_complete]
 

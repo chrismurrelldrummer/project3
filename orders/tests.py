@@ -20,23 +20,19 @@ class ModelsTestCase(TestCase):
         p5 = Pizza.objects.create(typ='Sicilian', category='3 item', smPrice='29.45', lgPrice='44.70', numTop='3')
 
         # Create toppings
-        Pepperoni = Toppings.objects.create(typ='Pepperoni')
-        Sausage = Toppings.objects.create(typ='Sausage')
-        Mushrooms = Toppings.objects.create(typ='Mushrooms')
-        Onions = Toppings.objects.create(typ='Onions')
-        Ham = Toppings.objects.create(typ='Ham')
-        CanadianBacon = Toppings.objects.create(typ='Canadian Bacon')
-        Pineapple = Toppings.objects.create(typ='Pineapple')
+        Pepperoni = Topping.objects.create(typ='Pepperoni')
+        Sausage = Topping.objects.create(typ='Sausage')
+        Mushrooms = Topping.objects.create(typ='Mushrooms')
+        Onions = Topping.objects.create(typ='Onions')
+        Ham = Topping.objects.create(typ='Ham')
+        CanadianBacon = Topping.objects.create(typ='Canadian Bacon')
+        Pineapple = Topping.objects.create(typ='Pineapple')
         
         # Create orders
-        ord1 = Orders.objects.create(user_id=u1)
-        ord2 = Orders.objects.create(user_id=u2)
-        ord3 = Orders.objects.create(user_id=u2, active="N")
+        ord1 = Order.objects.create(user_id=u1)
+        ord2 = Order.objects.create(user_id=u2)
+        ord3 = Order.objects.create(user_id=u2, active="N")
 
-        # Create baskets
-        bask1 = Basket.objects.create(user_id=u1)
-        bask2 = Basket.objects.create(user_id=u2)
-    
     
     def test_price_query(self):
         """check price for pizzas"""
@@ -56,9 +52,9 @@ class ModelsTestCase(TestCase):
         u1 = User.objects.get(id='1')
         u2 = User.objects.get(id='2')
         
-        ord1 = Orders.objects.get(order_id='1')
-        ord2 = Orders.objects.get(order_id='2')
-        ord3 = Orders.objects.all()
+        ord1 = Order.objects.get(order_id='1')
+        ord2 = Order.objects.get(order_id='2')
+        ord3 = Order.objects.all()
 
         count = 0
 
@@ -76,12 +72,12 @@ class ModelsTestCase(TestCase):
 
         u1 = User.objects.get(id='1')
 
-        ord1 = Orders.objects.get(user_id=u1, active='Y')
+        ord1 = Order.objects.get(user_id=u1, active='Y')
 
         p1 = Pizza.objects.get(typ='Regular', category='Cheese')
         p2 = Pizza.objects.get(typ='Regular', category='1 topping')
 
-        pepperoni = Toppings.objects.get(typ='Pepperoni')
+        pepperoni = Topping.objects.get(typ='Pepperoni')
 
         po1 = PizOrder.objects.create(typ=p1, price=p1.lgPrice, size='large')
         po1.order_id.add(ord1)
@@ -112,19 +108,19 @@ class ModelsTestCase(TestCase):
         u1 = User.objects.get(id='1')
         u2 = User.objects.get(id='2')
 
-        ord1 = Orders.objects.get(user_id=u1, active='Y')
-        ord2 = Orders.objects.get(user_id=u2, active='Y')
+        ord1 = Order.objects.get(user_id=u1, active='Y')
+        ord2 = Order.objects.get(user_id=u2, active='Y')
 
         p1 = Pizza.objects.get(typ='Regular', category='Cheese')
         p2 = Pizza.objects.get(typ='Regular', category='1 topping')
         p3 = Pizza.objects.get(typ='Regular', category='2 topping')
         p4 = Pizza.objects.get(typ='Sicilian', category='3 item')
 
-        pepperoni = Toppings.objects.get(typ='Pepperoni')
-        ham = Toppings.objects.get(typ='Ham')
-        sausage = Toppings.objects.get(typ='Sausage')
-        mushrooms = Toppings.objects.get(typ='Mushrooms')
-        onions = Toppings.objects.get(typ='Onions')
+        pepperoni = Topping.objects.get(typ='Pepperoni')
+        ham = Topping.objects.get(typ='Ham')
+        sausage = Topping.objects.get(typ='Sausage')
+        mushrooms = Topping.objects.get(typ='Mushrooms')
+        onions = Topping.objects.get(typ='Onions')
 
         # ------------------- first order -----------------------
 
@@ -188,7 +184,7 @@ class ModelsTestCase(TestCase):
         # order 2
         order2tot = po3.price + po4.price + po5.price + po6.price
 
-        ordCount = Orders.objects.filter(user_id=u2, active='Y').count()
+        ordCount = Order.objects.filter(user_id=u2, active='Y').count()
 
         self.assertEqual(ord1.pizItems.count(), 2)
         self.assertEqual(ord2.pizItems.count(), 4)
@@ -198,74 +194,3 @@ class ModelsTestCase(TestCase):
 
         self.assertEqual(ordCount, 1)
     
-    
-    def test_add_basket(self):
-        """create a basket order to add to orders"""
-
-        u1 = User.objects.get(id='1')
-
-        ord1 = Orders.objects.get(user_id=u1, active='Y')
-        bask1 = Basket.objects.get(user_id=u1)
-
-        p2 = Pizza.objects.get(typ='Regular', category='1 topping')
-        p3 = Pizza.objects.get(typ='Regular', category='2 topping')
-        p4 = Pizza.objects.get(typ='Sicilian', category='3 item')
-
-        pepperoni = Toppings.objects.get(typ='Pepperoni')
-        ham = Toppings.objects.get(typ='Ham')
-        sausage = Toppings.objects.get(typ='Sausage')
-        mushrooms = Toppings.objects.get(typ='Mushrooms')
-        onions = Toppings.objects.get(typ='Onions')
-
-        # 1 topping
-        po3 = PizOrder.objects.create(typ=p2, price=p2.lgPrice, size='large')
-        po3.toppings.add(pepperoni)
-        po3.save()
-        bask1.cost += po3.price
-        bask1.save()
-
-        # 2 toppings
-        po4 = PizOrder.objects.create(typ=p3, price=p3.lgPrice, size='large')
-        po4.toppings.add(pepperoni, sausage)
-        po4.save()
-        bask1.cost += po4.price
-        bask1.save()
-
-        # 2 toppings again
-        po5 = PizOrder.objects.create(typ=p3, price=p3.smPrice, size='small')
-        po5.toppings.add(pepperoni, sausage)
-        po5.save()
-        bask1.cost += po5.price
-        bask1.save()
-
-        # Sicilian 3 toppings
-        po6 = PizOrder.objects.create(typ=p4, price=p4.smPrice, size='small')
-        po6.toppings.add(ham, mushrooms, onions)
-        po6.save()
-        bask1.cost += po6.price
-        bask1.save()
-
-        bask1.pizItems.add(po3, po4, po5, po6)
-        bask1.save()
-
-        # order total
-        order1tot = po3.price + po4.price + po5.price + po6.price
-
-        # once submitted and order placed
-        po3.order_id.add(ord1)
-        po4.order_id.add(ord1)
-        po5.order_id.add(ord1)
-        po6.order_id.add(ord1)
-        po3.save()
-        po4.save()
-        po5.save()
-        po6.save()
-
-        for row in bask1.pizItems.all():
-            ord1.pizItems.add(row)
-        
-        ord1.cost = bask1.cost
-
-        self.assertEqual(bask1.pizItems.count(), 4)
-        self.assertEqual(bask1.cost, order1tot)
-        self.assertEqual(ord1.cost, order1tot)
