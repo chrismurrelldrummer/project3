@@ -23,7 +23,7 @@ class Orders(models.Model):
         verbose_name_plural = 'orders'
     
     def __str__(self):
-        return f"{self.order_id} {self.user_id} {self.time_placed} {self.active} -- ${self.cost}"
+        return f"#{self.order_id} @ {self.time_placed.strftime('%x %X')}"
 
 
 # pizza menu model to include regular and sicilian
@@ -40,7 +40,7 @@ class Pizza(models.Model):
 
 # pizza orders
 class PizOrder(models.Model):
-    order_id = models.ManyToManyField('Orders', related_name='pizOrders')
+    order_id = models.ForeignKey('Orders', on_delete=models.CASCADE, related_name='pizOrder')
     typ = models.ForeignKey(
         Pizza, on_delete=models.CASCADE, related_name='pizTyp')
     size = models.CharField(max_length=5)
@@ -48,7 +48,7 @@ class PizOrder(models.Model):
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
 
     def __str__(self):
-        return f"{self.order_id} {self.typ} {self.size} {self.toppings} ${self.price}"
+        return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.toppings} || Price: ${self.price}"
 
 
 # pizza toppings model

@@ -20,20 +20,43 @@ class ModelsTestCase(TestCase):
         p5 = Pizza.objects.create(typ='Sicilian', category='3 item', smPrice='29.45', lgPrice='44.70', numTop='3')
 
         # Create toppings
-        Pepperoni = Topping.objects.create(typ='Pepperoni')
-        Sausage = Topping.objects.create(typ='Sausage')
-        Mushrooms = Topping.objects.create(typ='Mushrooms')
-        Onions = Topping.objects.create(typ='Onions')
-        Ham = Topping.objects.create(typ='Ham')
-        CanadianBacon = Topping.objects.create(typ='Canadian Bacon')
-        Pineapple = Topping.objects.create(typ='Pineapple')
+        Pepperoni = Toppings.objects.create(typ='Pepperoni')
+        Sausage = Toppings.objects.create(typ='Sausage')
+        Mushrooms = Toppings.objects.create(typ='Mushrooms')
+        Onions = Toppings.objects.create(typ='Onions')
+        Ham = Toppings.objects.create(typ='Ham')
+        CanadianBacon = Toppings.objects.create(typ='Canadian Bacon')
+        Pineapple = Toppings.objects.create(typ='Pineapple')
         
         # Create orders
-        ord1 = Order.objects.create(user_id=u1)
-        ord2 = Order.objects.create(user_id=u2)
-        ord3 = Order.objects.create(user_id=u2, active="N")
+        ord1 = Orders.objects.create(user_id=u1)
+        ord2 = Orders.objects.create(user_id=u2)
+        ord3 = Orders.objects.create(user_id=u2, active="N")
 
     
+    def test_order_id(self):
+        """check auto id for orders"""
+
+        u1 = User.objects.get(id='1')
+        u2 = User.objects.get(id='2')
+
+        ord1 = Orders.objects.get(user_id=u1)
+        ord2 = Orders.objects.get(user_id=u2, active='Y')
+        ord3 = Orders.objects.get(user_id=u2, active="N")
+
+        ord4 = Orders(user_id=u1)
+        ord4.save()
+
+        self.assertFalse(ord1.order_id == None)
+        self.assertFalse(ord2.order_id == None)
+        self.assertFalse(ord3.order_id == None)
+        self.assertFalse(ord4.order_id == None)
+        self.assertFalse(ord1.pk == None)
+        self.assertFalse(ord2.pk == None)
+        self.assertFalse(ord3.pk == None)
+        self.assertFalse(ord4.pk == None)
+
+
     def test_price_query(self):
         """check price for pizzas"""
         p1 = Pizza.objects.get(typ='Regular', category='Cheese')
@@ -52,9 +75,9 @@ class ModelsTestCase(TestCase):
         u1 = User.objects.get(id='1')
         u2 = User.objects.get(id='2')
         
-        ord1 = Order.objects.get(order_id='1')
-        ord2 = Order.objects.get(order_id='2')
-        ord3 = Order.objects.all()
+        ord1 = Orders.objects.get(order_id='1')
+        ord2 = Orders.objects.get(order_id='2')
+        ord3 = Orders.objects.all()
 
         count = 0
 
@@ -72,12 +95,12 @@ class ModelsTestCase(TestCase):
 
         u1 = User.objects.get(id='1')
 
-        ord1 = Order.objects.get(user_id=u1, active='Y')
+        ord1 = Orders.objects.get(user_id=u1, active='Y')
 
         p1 = Pizza.objects.get(typ='Regular', category='Cheese')
         p2 = Pizza.objects.get(typ='Regular', category='1 topping')
 
-        pepperoni = Topping.objects.get(typ='Pepperoni')
+        pepperoni = Toppings.objects.get(typ='Pepperoni')
 
         po1 = PizOrder.objects.create(typ=p1, price=p1.lgPrice, size='large')
         po1.order_id.add(ord1)
@@ -108,19 +131,19 @@ class ModelsTestCase(TestCase):
         u1 = User.objects.get(id='1')
         u2 = User.objects.get(id='2')
 
-        ord1 = Order.objects.get(user_id=u1, active='Y')
-        ord2 = Order.objects.get(user_id=u2, active='Y')
+        ord1 = Orders.objects.get(user_id=u1, active='Y')
+        ord2 = Orders.objects.get(user_id=u2, active='Y')
 
         p1 = Pizza.objects.get(typ='Regular', category='Cheese')
         p2 = Pizza.objects.get(typ='Regular', category='1 topping')
         p3 = Pizza.objects.get(typ='Regular', category='2 topping')
         p4 = Pizza.objects.get(typ='Sicilian', category='3 item')
 
-        pepperoni = Topping.objects.get(typ='Pepperoni')
-        ham = Topping.objects.get(typ='Ham')
-        sausage = Topping.objects.get(typ='Sausage')
-        mushrooms = Topping.objects.get(typ='Mushrooms')
-        onions = Topping.objects.get(typ='Onions')
+        pepperoni = Toppings.objects.get(typ='Pepperoni')
+        ham = Toppings.objects.get(typ='Ham')
+        sausage = Toppings.objects.get(typ='Sausage')
+        mushrooms = Toppings.objects.get(typ='Mushrooms')
+        onions = Toppings.objects.get(typ='Onions')
 
         # ------------------- first order -----------------------
 
@@ -184,7 +207,7 @@ class ModelsTestCase(TestCase):
         # order 2
         order2tot = po3.price + po4.price + po5.price + po6.price
 
-        ordCount = Order.objects.filter(user_id=u2, active='Y').count()
+        ordCount = Orders.objects.filter(user_id=u2, active='Y').count()
 
         self.assertEqual(ord1.pizItems.count(), 2)
         self.assertEqual(ord2.pizItems.count(), 4)

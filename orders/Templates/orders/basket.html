@@ -63,6 +63,17 @@ My Basket
 </div>
 {% endfor %}
 
+<h5>Out for Delivery:</h5>
+{% for row in delivery %}
+<div class="card mb-2">
+    <div class="card-body">
+        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
+        <p class="card-text">Items:</p>
+    </div>
+</div>
+{% endfor %}
+
 <h5>Expired:</h5>
 {% for row in expired %}
 <div class="card mb-2">

@@ -101,21 +101,20 @@ def place(request):
 
             data = json.loads(data)
 
-            ord1 = Orders.objects.create(user_id=user)
+            ord1 = Orders(user_id=user)
+            ord1.save()
 
             for row in data:
                 if row['item'] == 'Pizza':
                     p1 = Pizza.objects.get(id=row['ident'])
 
-                    po1 = PizOrder.objects.create(
-                        typ=p1, price=float(row['price']), size=row['size'])
-                    po1.order_id.add(ord1)
+                    po1 = PizOrder(order_id=ord1, typ=p1, price=float(row['price']), size=row['size'])
                     po1.save()
 
                     if row['toppings'] != []:
                         for row in row['toppings']:
-                            row = Toppings.objects.get(typ=row)
-                            po1.toppings.add(row)
+                            top = Toppings.objects.get(typ=row)
+                            po1.toppings.add(top)
                             po1.save()
 
                     ord1.cost += po1.price
@@ -125,7 +124,7 @@ def place(request):
                 elif row['item'] == 'Sub':
                     s1 = Sub.objects.get(id=row['ident'])
 
-                    so1 = SubOrder.objects.create(
+                    so1 = SubOrder(
                         typ=s1, price=float(row['price']), size=row['size'])
                     so1.order_id.add(ord1)
                     so1.save()
@@ -143,7 +142,7 @@ def place(request):
                 elif row['item'] == 'Pasta':
                     pasta1 = Pasta.objects.get(id=row['ident'])
 
-                    paO1 = PastaOrder.objects.create(
+                    paO1 = PastaOrder(
                         typ=pasta1, price=pasta1.price)
                     paO1.order_id.add(ord1)
                     paO1.save()
@@ -155,7 +154,7 @@ def place(request):
                 elif row['item'] == 'Salad':
                     salad1 = salad.objects.get(id=row['ident'])
 
-                    salO1 = SaladOrder.objects.create(
+                    salO1 = SaladOrder(
                         typ=salad1, price=salad1.price)
                     salO1.order_id.add(ord1)
                     salO1.save()
@@ -167,7 +166,7 @@ def place(request):
                 elif row['item'] == 'Platter':
                     plat1 = Platter.objects.get(id=row['ident'])
 
-                    plato1 = PlatterOrder.objects.create(
+                    plato1 = PlatterOrder(
                         typ=s1, price=float(row['price']), size=row['size'])
                     plato1.order_id.add(ord1)
                     plato1.save()
@@ -188,17 +187,19 @@ def place(request):
 def basket(request):
 
     user = request.user
-    user = User.objects.get(username=user)
-
-    orders = Orders.objects.filter(user_id=user.pk, active='N')
 
     pizzas = PizOrder.objects.all()
-    active = Orders.objects.filter(user_id=user, active='Y').order_by('-time_placed')
-    expired = Orders.objects.filter(user_id=user, active='N').order_by('-time_placed')
+    active = Orders.objects.filter(
+        user_id=user, active='Y').order_by('-time_placed')
+    delivery = Orders.objects.filter(
+        user_id=user, active='D').order_by('-time_placed')
+    expired = Orders.objects.filter(
+        user_id=user, active='N').order_by('-time_placed')
 
     context = {
         "user": user,
         "active": active,
+        "delivery": delivery,
         "expired": expired,
         "test": pizzas
     }
