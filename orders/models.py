@@ -18,8 +18,9 @@ class Orders(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2, default=00.00)
     active = models.CharField(max_length=1, default='Y')
 
-    class meta:
-        verbose_name_plural = 'Orders'
+    class Meta:
+        verbose_name = 'order'
+        verbose_name_plural = 'orders'
     
     def __str__(self):
         return f"{self.order_id} {self.user_id} {self.time_placed} {self.active} -- ${self.cost}"
@@ -54,8 +55,9 @@ class PizOrder(models.Model):
 class Toppings(models.Model):
     typ = models.CharField(max_length=64)
 
-    class meta:
-        verbose_name_plural = 'Toppings'
+    class Meta:
+        verbose_name = 'topping'
+        verbose_name_plural = 'toppings'
 
     def __str__(self):
         return f"{self.typ}"
@@ -88,8 +90,9 @@ class Extras(models.Model):
     typ = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=4, decimal_places=2, default='00.50')
 
-    class meta:
-        verbose_name_plural = 'Extras'
+    class Meta:
+        verbose_name = 'extra'
+        verbose_name_plural = 'extras'
     
     def __str__(self):
         return f"{self.typ}"

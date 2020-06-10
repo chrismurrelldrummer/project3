@@ -187,9 +187,10 @@ def place(request):
 
 def basket(request):
 
-    user = request.user.email
+    user = request.user
+    user = User.objects.get(username=user)
 
-    orders = Orders.objects.filter(user_id=user, active='N')
+    orders = Orders.objects.filter(user_id=user.pk, active='N')
 
     pizzas = PizOrder.objects.all()
     active = Orders.objects.filter(user_id=user, active='Y').order_by('-time_placed')
