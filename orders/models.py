@@ -22,6 +22,9 @@ class Orders(models.Model):
         verbose_name = 'order'
         verbose_name_plural = 'orders'
     
+    def pizzaItems(self):
+        return "\n".join([p for p in self.pizItems.filter(order_id=self)])
+    
     def __str__(self):
         return f"#{self.order_id} @ {self.time_placed.strftime('%x %X')}"
 

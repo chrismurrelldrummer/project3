@@ -2,25 +2,32 @@ from django.contrib import admin
 
 from .models import *
 
-# Admin Action Function - mark as completed
-
 
 def order_complete(modeladmin, request, queryset):
+    # Admin Action Function - mark as completed
     queryset.update(active='N')
 
 
 # Action description
 order_complete.short_description = "Mark order as complete"
 
-# Admin Action Function - mark as delivery
-
 
 def order_delivery(modeladmin, request, queryset):
+    # Admin Action Function - mark as delivery
     queryset.update(active='D')
 
 
 # Action description
 order_delivery.short_description = "Mark order as out for delivery"
+
+
+def item_completed(modeladmin, request, queryset):
+    # Admin Action Function - mark item as completed
+    queryset.update(completed='Y')
+
+
+# Action description
+item_completed.short_description = "Mark item as completed"
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -31,6 +38,9 @@ class OrderAdmin(admin.ModelAdmin):
 
     def email(self, instance):
         return instance.user_id.email
+    
+    # def change_view(self, request, object_id, extra_context=None):
+    #     list_editable = ('pizzaItems', )
 
 
 class PizzaAdmin(admin.ModelAdmin):
@@ -41,6 +51,8 @@ class PizzaAdmin(admin.ModelAdmin):
 class PizItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'typ', 'size', 'custom_toppings', 'price')
     filter_horizontal = ('toppings',)
+    list_filter = ('completed', )
+    actions = (item_completed,)
 
     def order(self, instance):
         return instance.order_id
@@ -86,4 +98,6 @@ admin.site.register(PastaOrder)
 admin.site.register(SaladOrder)
 admin.site.register(PlatterOrder)
 
-admin.site.site_header = "Pizza Orders & Administration"
+admin.site.site_header = "Pizza"
+admin.site.site_title = "Pizza Admin"
+admin.site.index_title = "Orders & Menu Administration"
