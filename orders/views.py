@@ -113,7 +113,7 @@ def place(request):
 
                     if row['toppings'] != []:
                         for row in row['toppings']:
-                            top = Toppings.objects.get(typ=row)
+                            top = Toppings.objects.get(typ=row.replace('&amp;', '&'))
                             po1.toppings.add(top)
                             po1.save()
 

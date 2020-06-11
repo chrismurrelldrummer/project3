@@ -35,7 +35,7 @@ class Pizza(models.Model):
     numTop = models.IntegerField(default=0)
     
     def __str__(self):
-        return f"{self.typ} {self.category}"
+        return f"{self.typ} - {self.category}"
 
 
 # pizza orders
@@ -46,9 +46,13 @@ class PizOrder(models.Model):
     size = models.CharField(max_length=5)
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
     toppings = models.ManyToManyField('Toppings', blank=True, related_name='customPiz')
+    completed = models.CharField(max_length=1, default='N')
+    
+    def custom_toppings(self):
+        return ", ".join([t.typ for t in self.toppings.all()])
 
     def __str__(self):
-        return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.toppings} || Price: ${self.price}"
+        return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.custom_toppings()} || Price: ${self.price}"
 
 
 # pizza toppings model
@@ -80,6 +84,7 @@ class SubOrder(models.Model):
     size = models.CharField(max_length=5)
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
     extras = models.ManyToManyField('Extras', related_name='subs')
+    completed = models.CharField(max_length=1, default='N')
 
     def __str__(self):
         return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.extras} || Price: ${self.price}"
@@ -112,6 +117,7 @@ class PastaOrder(models.Model):
     typ = models.ForeignKey(
         Pasta, on_delete=models.CASCADE, related_name='pastaTyp')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    completed = models.CharField(max_length=1, default='N')
 
     def __str__(self):
         return f"{self.typ} -- ${self.price}"
@@ -130,6 +136,7 @@ class SaladOrder(models.Model):
     typ = models.ForeignKey(
         Salad, on_delete=models.CASCADE, related_name='saladTyp')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    completed = models.CharField(max_length=1, default='N')
 
     def __str__(self):
         return f"Type: {self.typ} || Price: ${self.price}"
@@ -150,6 +157,7 @@ class PlatterOrder(models.Model):
         Platter, on_delete=models.CASCADE, related_name='platterTyp')
     size = models.CharField(max_length=5)
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
+    completed = models.CharField(max_length=1, default='N')
 
     def __str__(self):
         return f"Type: {self.typ} || Size: {self.size} || Price: ${self.price}"
