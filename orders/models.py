@@ -78,7 +78,7 @@ class Sub(models.Model):
 
 # sub orders
 class SubOrder(models.Model):
-    order_id = models.ManyToManyField('Orders', related_name='subOrders')
+    order_id = models.ForeignKey('Orders', on_delete=models.CASCADE, related_name='subOrders')
     typ = models.ForeignKey(
         Sub, on_delete=models.CASCADE, related_name='subTyp')
     size = models.CharField(max_length=5)
@@ -113,7 +113,7 @@ class Pasta(models.Model):
 
 # pasta orders
 class PastaOrder(models.Model):
-    order_id = models.ManyToManyField('Orders', related_name='pastaOrders')
+    order_id = models.ForeignKey('Orders', on_delete=models.CASCADE, related_name='pastaOrders')
     typ = models.ForeignKey(
         Pasta, on_delete=models.CASCADE, related_name='pastaTyp')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
@@ -132,7 +132,7 @@ class Salad(models.Model):
 
 # salad orders
 class SaladOrder(models.Model):
-    order_id = models.ManyToManyField('Orders', related_name='saladOrders')
+    order_id = models.ForeignKey('Orders', on_delete=models.CASCADE, related_name='saladOrders')
     typ = models.ForeignKey(
         Salad, on_delete=models.CASCADE, related_name='saladTyp')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
@@ -152,7 +152,7 @@ class Platter(models.Model):
 
 # platter orders
 class PlatterOrder(models.Model):
-    order_id = models.ManyToManyField('Orders', related_name='platterOrders')
+    order_id = models.ForeignKey('Orders', on_delete=models.CASCADE, related_name='platterOrders')
     typ = models.ForeignKey(
         Platter, on_delete=models.CASCADE, related_name='platterTyp')
     size = models.CharField(max_length=5)

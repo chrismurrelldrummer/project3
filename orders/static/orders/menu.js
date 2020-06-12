@@ -252,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
+                        'toppings': tops,
                         'price': price
                     }
                     break;

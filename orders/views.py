@@ -124,7 +124,7 @@ def place(request):
                 elif row['item'] == 'Sub':
                     s1 = Sub.objects.get(id=row['ident'])
 
-                    so1 = SubOrder(
+                    so1 = SubOrder(order_id=ord1, 
                         typ=s1, price=float(row['price']), size=row['size'])
                     so1.save()
 
@@ -141,7 +141,7 @@ def place(request):
                 elif row['item'] == 'Pasta':
                     pasta1 = Pasta.objects.get(id=row['ident'])
 
-                    paO1 = PastaOrder(
+                    paO1 = PastaOrder(order_id=ord1, 
                         typ=pasta1, price=float(row['price']))
                     paO1.save()
 
@@ -152,7 +152,7 @@ def place(request):
                 elif row['item'] == 'Salad':
                     salad1 = Salad.objects.get(id=row['ident'])
 
-                    salO1 = SaladOrder(
+                    salO1 = SaladOrder(order_id=ord1, 
                         typ=salad1, price=float(row['price']))
                     salO1.save()
 
@@ -163,7 +163,7 @@ def place(request):
                 elif row['item'] == 'Platter':
                     platter1 = Platter.objects.get(id=row['ident'])
 
-                    plato1 = PlatterOrder(
+                    plato1 = PlatterOrder(order_id=ord1, 
                         typ=platter1, price=float(row['price']), size=row['size'])
                     plato1.save()
 
