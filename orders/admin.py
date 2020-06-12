@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 
 from .models import *
 
@@ -30,17 +31,64 @@ def item_completed(modeladmin, request, queryset):
 item_completed.short_description = "Mark item as completed"
 
 
+class orderItemForm(forms.ModelForm):
+    # filter pizItems select choices on change_form to show only those for the selected order
+    def __init__(self, *args, **kwargs):
+        super(orderItemForm, self).__init__(*args, **kwargs)
+        self.fields['pizItems'].queryset = PizOrder.objects.filter(
+            order_id=self.instance.order_id)
+        self.fields['subItems'].queryset = SubOrder.objects.filter(
+            order_id=self.instance.order_id)
+        self.fields['pastaItems'].queryset = PastaOrder.objects.filter(
+            order_id=self.instance.order_id)
+        self.fields['saladItems'].queryset = SaladOrder.objects.filter(
+            order_id=self.instance.order_id)
+        self.fields['platItems'].queryset = PlatterOrder.objects.filter(
+            order_id=self.instance.order_id)
+
+
+
+# class subItemForm(forms.ModelForm):
+#     # filter subItems select choices on change_form to show only those for the selected order
+#     def __init__(self, *args, **kwargs):
+#         super(subItemForm, self).__init__(*args, **kwargs)
+#         self.fields['subItems'].queryset = SubOrder.objects.filter(
+#             order_id=self.instance.order_id)
+
+
+# class pastaItemForm(forms.ModelForm):
+#     # filter pastaItems select choices on change_form to show only those for the selected order
+#     def __init__(self, *args, **kwargs):
+#         super(pastaItemForm, self).__init__(*args, **kwargs)
+#         self.fields['pastaItems'].queryset = PastaOrder.objects.filter(
+#             order_id=self.instance.order_id)
+
+
+# class saladItemForm(forms.ModelForm):
+#     # filter saladItems select choices on change_form to show only those for the selected order
+#     def __init__(self, *args, **kwargs):
+#         super(saladItemForm, self).__init__(*args, **kwargs)
+#         self.fields['saladItems'].queryset = SaladOrder.objects.filter(
+#             order_id=self.instance.order_id)
+
+
+# class platItemForm(forms.ModelForm):
+#     # filter platItems select choices on change_form to show only those for the selected order
+#     def __init__(self, *args, **kwargs):
+#         super(platItemForm, self).__init__(*args, **kwargs)
+#         self.fields['platItems'].queryset = PlatterOrder.objects.filter(
+#             order_id=self.instance.order_id)
+
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('order_id', 'email', 'time_placed', 'cost')
     list_select_related = ['user_id']
     list_filter = ('active', )
     actions = (order_complete, order_delivery)
+    form = orderItemForm
 
     def email(self, instance):
         return instance.user_id.email
-    
-    # def change_view(self, request, object_id, extra_context=None):
-    #     list_editable = ('pizzaItems', )
 
 
 class PizzaAdmin(admin.ModelAdmin):

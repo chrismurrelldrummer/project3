@@ -126,12 +126,11 @@ def place(request):
 
                     so1 = SubOrder(
                         typ=s1, price=float(row['price']), size=row['size'])
-                    so1.order_id.add(ord1)
                     so1.save()
 
                     if row['toppings'] != []:
                         for row in row['toppings']:
-                            row = Extras.objects.get(typ=row)
+                            row = Extras.objects.get(typ=row.replace('&amp;', '&'))
                             so1.extras.add(row)
                             so1.save()
 
@@ -143,32 +142,29 @@ def place(request):
                     pasta1 = Pasta.objects.get(id=row['ident'])
 
                     paO1 = PastaOrder(
-                        typ=pasta1, price=pasta1.price)
-                    paO1.order_id.add(ord1)
+                        typ=pasta1, price=float(row['price']))
                     paO1.save()
 
-                    ord1.cost += pasta1.price
-                    ord1.pastaItems.add(pasta1)
+                    ord1.cost += paO1.price
+                    ord1.pastaItems.add(paO1)
                     ord1.save()
 
                 elif row['item'] == 'Salad':
-                    salad1 = salad.objects.get(id=row['ident'])
+                    salad1 = Salad.objects.get(id=row['ident'])
 
                     salO1 = SaladOrder(
-                        typ=salad1, price=salad1.price)
-                    salO1.order_id.add(ord1)
+                        typ=salad1, price=float(row['price']))
                     salO1.save()
 
-                    ord1.cost += salad1.price
-                    ord1.saladItems.add(salad1)
+                    ord1.cost += salO1.price
+                    ord1.saladItems.add(salO1)
                     ord1.save()
 
                 elif row['item'] == 'Platter':
-                    plat1 = Platter.objects.get(id=row['ident'])
+                    platter1 = Platter.objects.get(id=row['ident'])
 
                     plato1 = PlatterOrder(
-                        typ=s1, price=float(row['price']), size=row['size'])
-                    plato1.order_id.add(ord1)
+                        typ=platter1, price=float(row['price']), size=row['size'])
                     plato1.save()
 
                     ord1.cost += plato1.price

@@ -176,13 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         'price': price
                     }
                     break;
-                case 'plattersmplace':
+                case 'platsmplace':
                     data = {
                         'item': 'Platter',
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops,
                         'price': price
                     }
                     break;
@@ -253,17 +252,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops,
                         'price': price
                     }
                     break;
-                case 'platterlgplace':
+                case 'platlgplace':
                     data = {
                         'item': 'Platter',
                         'ident': ident,
                         'type': button.dataset.typ,
                         'size': size,
-                        'toppings': tops,
                         'price': price
                     }
                     break;
@@ -305,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         'item': 'Pasta',
                         'ident': ident,
                         'type': button.dataset.typ,
-                        'size': size,
                         'price': price
                     }
                     break;
@@ -314,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         'item': 'Salad',
                         'ident': ident,
                         'type': button.dataset.typ,
-                        'size': size,
                         'price': price
                     }
                     break;

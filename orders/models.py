@@ -22,9 +22,6 @@ class Orders(models.Model):
         verbose_name = 'order'
         verbose_name_plural = 'orders'
     
-    def pizzaItems(self):
-        return "\n".join([p for p in self.pizItems.filter(order_id=self)])
-    
     def __str__(self):
         return f"#{self.order_id} @ {self.time_placed.strftime('%x %X')}"
 
@@ -112,7 +109,7 @@ class Pasta(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
-        return f"{self.typ} -- ${self.price}"
+        return f"{self.typ}"
 
 # pasta orders
 class PastaOrder(models.Model):
@@ -131,7 +128,7 @@ class Salad(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
-        return f"Type: {self.typ} || Price: ${self.price}"
+        return f"Type: {self.typ}"
 
 # salad orders
 class SaladOrder(models.Model):
@@ -151,7 +148,7 @@ class Platter(models.Model):
     lgPrice = models.DecimalField(max_digits=4, decimal_places=2, default=00.00)
 
     def __str__(self):
-        return f"{self.typ} small = ${self.smPrice} large = ${self.smPrice}"
+        return f"{self.typ} small = ${self.smPrice} large = ${self.lgPrice}"
 
 # platter orders
 class PlatterOrder(models.Model):
