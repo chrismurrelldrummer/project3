@@ -77,6 +77,15 @@ class SubAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'smPrice', 'lgPrice')
     list_editable = ('smPrice', 'lgPrice')
 
+class SubItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'typ', 'size', 'custom_extras', 'price')
+    filter_horizontal = ('extras',)
+    list_filter = ('completed', )
+    actions = (item_completed,)
+
+    def order(self, instance):
+        return instance.order_id
+
 
 class ExtraAdmin(admin.ModelAdmin):
     list_display = ('typ', 'price')
@@ -87,15 +96,39 @@ class PastaAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'price')
     list_editable = ['price']
 
+class PastaItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'typ', 'price')
+    list_filter = ('completed', )
+    actions = (item_completed,)
+
+    def order(self, instance):
+        return instance.order_id
+
 
 class SaladAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'price')
     list_editable = ['price']
 
+class SaladItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'typ', 'price')
+    list_filter = ('completed', )
+    actions = (item_completed,)
+
+    def order(self, instance):
+        return instance.order_id
+
 
 class PlatterAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'smPrice', 'lgPrice')
     list_editable = ('smPrice', 'lgPrice')
+
+class PlatterItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'typ', 'size', 'price')
+    list_filter = ('completed', )
+    actions = (item_completed,)
+
+    def order(self, instance):
+        return instance.order_id
 
 
 admin.site.register(Orders, OrderAdmin)
@@ -108,10 +141,10 @@ admin.site.register(Salad, SaladAdmin)
 admin.site.register(Platter, PlatterAdmin)
 
 admin.site.register(PizOrder, PizItemAdmin)
-admin.site.register(SubOrder)
-admin.site.register(PastaOrder)
-admin.site.register(SaladOrder)
-admin.site.register(PlatterOrder)
+admin.site.register(SubOrder, SubItemAdmin)
+admin.site.register(PastaOrder, PastaItemAdmin)
+admin.site.register(SaladOrder, SaladItemAdmin)
+admin.site.register(PlatterOrder, PlatterItemAdmin)
 
 admin.site.site_header = "Pizza"
 admin.site.site_title = "Pizza Admin"

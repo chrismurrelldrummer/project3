@@ -56,11 +56,36 @@ My Basket
 {% for row in active %}
 <div class="card mb-2">
     <div class="card-body">
-        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items: 
-        </p>
+        <div class="row">
+            <div class="col text-left">
+                <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
+                <h6 class="card-subtitle text-muted">{{ row.time_placed }}</h6>
+            </div>
+            <div class="col text-right">
+                <button type="button" class="btn btn-outline-info" data-toggle="collapse"
+                    data-target="#details{{ row.order_id }}" aria-controls="list-group" aria-expanded="false">View
+                    Details</button>
+            </div>
+        </div>
     </div>
+    <ul class="list-group list-group-flush collapse" id="details{{ row.order_id }}">
+        <li class="list-group-item pb-4">
+            <h5>Items:</h5>
+            <ul>
+                {% for line in pizzas %}{% if line.order_id.order_id == row.order_id %}<li><strong>Pizza:</strong> {{ line }}</li>
+                {% endif %}{% endfor %}
+                {% for line in subs %}{% if line.order_id.order_id == row.order_id %}<li><strong>Sub:</strong> {{ line }}</li>
+                {% endif %}{% endfor %}
+                {% for line in pastas %}{% if line.order_id.order_id == row.order_id %}<li><strong>Pasta:</strong> {{ line }}</li>
+                {% endif %}{% endfor %}
+                {% for line in salads %}{% if line.order_id.order_id == row.order_id %}<li><strong>Salad:</strong> {{ line }}</li>
+                {% endif %}{% endfor %}
+                {% for line in platters %}{% if line.order_id.order_id == row.order_id %}<li><strong>Platter:</strong> {{ line }}</li>
+                {% endif %}{% endfor %}
+            </ul>
+
+        </li>
+    </ul>
 </div>
 {% endfor %}
 

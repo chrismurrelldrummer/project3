@@ -86,8 +86,11 @@ class SubOrder(models.Model):
     extras = models.ManyToManyField('Extras', related_name='subs')
     completed = models.CharField(max_length=1, default='N')
 
+    def custom_extras(self):
+        return ", ".join([t.typ for t in self.extras.all()])
+
     def __str__(self):
-        return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.extras} || Price: ${self.price}"
+        return f"Type: {self.typ} || Size: {self.size} || Toppings: {self.custom_extras()} || Price: ${self.price}"
 
 
 # extras for subs
