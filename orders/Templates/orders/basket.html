@@ -51,13 +51,14 @@ My Basket
 </form>
 
 <!-- Previous Orders -->
+<h1>My Orders</h1>
 <h5>Currently Active:</h5>
 {% for row in active %}
 <div class="card mb-2">
     <div class="card-body">
         <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items:
+        <p class="card-text">Items: 
         </p>
     </div>
 </div>

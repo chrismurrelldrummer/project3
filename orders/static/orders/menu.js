@@ -157,6 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'toppings': tops,
                         'price': price
                     }
+
+                    let pizquantity = document.querySelector(`#pizquant${ident}`);
+                    pizquantity.innerHTML++;
+                    pizquantity.hidden = false;
+
                     break;
                 case 'subsmplace':
 
@@ -175,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'toppings': tops,
                         'price': price
                     }
+
+                    let subquantity = document.querySelector(`#subquant${ident}`);
+                    subquantity.innerHTML++;
+                    subquantity.hidden = false;
+
                     break;
                 case 'platsmplace':
                     data = {
@@ -184,6 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'size': size,
                         'price': price
                     }
+
+                    let platquantity = document.querySelector(`#platterquant${ident}`);
+                    platquantity.innerHTML++;
+                    platquantity.hidden = false;
+
                     break;
             }
 
@@ -202,10 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             button.blur();
-
-            let quantity = document.querySelector(`#quant${ident}`);
-            quantity.innerHTML++;
-            quantity.hidden = false;
 
         }
     });
@@ -237,6 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'toppings': tops,
                         'price': price
                     }
+
+                    let pizquantity = document.querySelector(`#pizquant${ident}`);
+                    pizquantity.innerHTML++;
+                    pizquantity.hidden = false;
+
                     break;
                 case 'sublgplace':
 
@@ -255,6 +271,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'toppings': tops,
                         'price': price
                     }
+
+                    let subquantity = document.querySelector(`#subquant${ident}`);
+                    subquantity.innerHTML++;
+                    subquantity.hidden = false;
+
                     break;
                 case 'platlgplace':
                     data = {
@@ -264,6 +285,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'size': size,
                         'price': price
                     }
+
+                    let platquantity = document.querySelector(`#platterquant${ident}`);
+                    platquantity.innerHTML++;
+                    platquantity.hidden = false;
+
                     break;
             }
 
@@ -281,10 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             button.blur();
-
-            let quantity = document.querySelector(`#quant${ident}`);
-            quantity.innerHTML++;
-            quantity.hidden = false;
         }
     });
 
@@ -305,6 +327,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'type': button.dataset.typ,
                         'price': price
                     }
+
+                    let pastaquantity = document.querySelector(`#pastaquant${ident}`);
+                    pastaquantity.innerHTML++;
+                    pastaquantity.hidden = false;
+
                     break;
                 case 'saladplace':
                     data = {
@@ -313,6 +340,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         'type': button.dataset.typ,
                         'price': price
                     }
+
+                    let saladquantity = document.querySelector(`#saladquant${ident}`);
+                    saladquantity.innerHTML++;
+                    saladquantity.hidden = false;
+
                     break;
             }
 

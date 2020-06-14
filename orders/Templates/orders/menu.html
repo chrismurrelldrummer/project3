@@ -41,7 +41,7 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }} - {{ row.category }} <span class="badge badge-info" id="quant{{ row.id }}"
+                            {{ row.typ }} - {{ row.category }} <span class="badge badge-info" id="pizquant{{ row.id }}"
                                 hidden>0</span>
                         </div>
                         <div class="col text-right">
@@ -128,7 +128,7 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
+                            {{ row.typ }} <span class="badge badge-info" id="subquant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}
@@ -226,7 +226,7 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
+                            {{ row.typ }} <span class="badge badge-info" id="pastaquant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             <button type="submit" class="btn btn-success place" id="pastaplace{{ row.id }}"
@@ -250,7 +250,8 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }}
+                            {{ row.typ }} <span class="badge badge-info" id="saladquant{{ row.id }}"
+                            hidden>0</span>
                         </div>
                         <div class="col text-right">
                             <button type="submit" class="btn btn-success place" id="saladplace{{ row.id }}"
@@ -274,7 +275,7 @@ Menu
                 <h5 class="card-title">
                     <div class="row">
                         <div class="col">
-                            {{ row.typ }} <span class="badge badge-info" id="quant{{ row.id }}" hidden>0</span>
+                            {{ row.typ }} <span class="badge badge-info" id="platterquant{{ row.id }}" hidden>0</span>
                         </div>
                         <div class="col text-right">
                             {% if row.smPrice != 0.00 and row.lgPrice != 0.00 %}

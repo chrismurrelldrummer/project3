@@ -184,20 +184,29 @@ def basket(request):
 
     user = request.user
 
-    pizzas = PizOrder.objects.all()
     active = Orders.objects.filter(
         user_id=user, active='Y').order_by('-time_placed')
     delivery = Orders.objects.filter(
         user_id=user, active='D').order_by('-time_placed')
     expired = Orders.objects.filter(
         user_id=user, active='N').order_by('-time_placed')
+    
+    pizzas = PizOrder.objects.all()
+    subs = SubOrder.objects.all()
+    pastas = PastaOrder.objects.all()
+    salads = SaladOrder.objects.all()
+    platters = PlatterOrder.objects.all()
 
     context = {
         "user": user,
         "active": active,
         "delivery": delivery,
         "expired": expired,
-        "test": pizzas
+        "pizzas": pizzas,
+        "subs": subs,
+        "pastas": pastas,
+        "salads": salads,
+        "platters": platters
     }
 
     return render(request, 'orders/basket.html', context)
