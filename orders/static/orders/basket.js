@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     let bask = JSON.parse(localStorage.getItem('basket'));
+    let basknum = document.querySelector('#basketnum');
     let div = document.querySelector('#basketList');
 
     if (bask == null) {
@@ -72,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#hiddenData').value = localStorage.getItem('basket');
         localStorage.removeItem('basket');
         localStorage.removeItem('subtotal');
+        localStorage.removeItem('basknum');
+        basknum.innerHTML = 0;
+        basknum.hidden = true;
     };
 
     document.querySelector('#deleteOrder').onclick = (button) => {
@@ -79,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#basketList').innerHTML = 'You do not have any items in your basket!';
         localStorage.removeItem('basket');
         localStorage.removeItem('subtotal');
+        localStorage.removeItem('basknum');
+        basknum.innerHTML = 0;
+        basknum.hidden = true;
         document.querySelector('#placeOrder').disabled = true;
         document.querySelector('#deleteOrder').disabled = true;
         document.querySelector('#confirmation').hidden = false;

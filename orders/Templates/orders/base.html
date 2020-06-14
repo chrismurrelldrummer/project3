@@ -32,6 +32,9 @@
     <!-- Include Handlebars -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 
+    <!-- base js file -->
+    <script src="{% static 'orders/base.js' %}"></script>
+
     {% block script %}{% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
@@ -61,7 +64,7 @@
 
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i> Basket</a>
+                <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i> Basket<span class="badge badge-dark" id="basketnum" hidden>0</span></a>
             </div>
 
             <!-- if not logged in -->

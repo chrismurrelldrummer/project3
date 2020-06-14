@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    let basknum = document.querySelector('#basketnum');
+    let basketnum = JSON.parse(localStorage.getItem('basknum'));
+    
+    if (basketnum > 0) {
+        basknum.innerHTML = basketnum;
+        basknum.hidden = false;
+    } else {
+        basknum.innerHTML = 0;
+        basknum.hidden = true;
+    }
+
     // sub extras price change
     document.querySelectorAll('input[type="checkbox"]').forEach((input) => {
 
@@ -162,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     pizquantity.innerHTML++;
                     pizquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
                 case 'subsmplace':
 
@@ -185,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     subquantity.innerHTML++;
                     subquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
                 case 'platsmplace':
                     data = {
@@ -199,21 +216,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     platquantity.innerHTML++;
                     platquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
             let subtotal = parseFloat(localStorage.getItem('subtotal'));
+            let basketnum = JSON.parse(localStorage.getItem('basknum'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
                 localStorage.setItem('subtotal', data.price);
+                localStorage.setItem('basknum', 1);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
-
                 subtotal += parseFloat(data.price);
                 localStorage.setItem('subtotal', subtotal);
+                basketnum ++;
+                localStorage.setItem('basknum', basketnum);
             }
 
             button.blur();
@@ -253,6 +276,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     pizquantity.innerHTML++;
                     pizquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
                 case 'sublgplace':
 
@@ -276,6 +302,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     subquantity.innerHTML++;
                     subquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
                 case 'platlgplace':
                     data = {
@@ -290,20 +319,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     platquantity.innerHTML++;
                     platquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
             let subtotal = parseFloat(localStorage.getItem('subtotal'));
+            let basketnum = JSON.parse(localStorage.getItem('basknum'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
                 localStorage.setItem('subtotal', data.price);
+                localStorage.setItem('basknum', 1);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
                 subtotal += parseFloat(data.price);
                 localStorage.setItem('subtotal', subtotal);
+                basketnum ++;
+                localStorage.setItem('basknum', basketnum);
             }
 
             button.blur();
@@ -332,6 +368,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     pastaquantity.innerHTML++;
                     pastaquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
                 case 'saladplace':
                     data = {
@@ -345,20 +384,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     saladquantity.innerHTML++;
                     saladquantity.hidden = false;
 
+                    basknum.innerHTML++;
+                    basknum.hidden = false;
+
                     break;
             }
 
             let bask = JSON.parse(localStorage.getItem('basket'));
             let subtotal = parseFloat(localStorage.getItem('subtotal'));
+            let basketnum = JSON.parse(localStorage.getItem('basknum'));
 
             if (bask == null) {
                 localStorage.setItem('basket', JSON.stringify([data]));
                 localStorage.setItem('subtotal', data.price);
+                localStorage.setItem('basknum', 1);
             } else {
                 bask.push(data);
                 localStorage.setItem('basket', JSON.stringify(bask));
                 subtotal += parseFloat(data.price);
                 localStorage.setItem('subtotal', subtotal);
+                basketnum ++;
+                localStorage.setItem('basknum', basketnum);
             }
 
             button.blur();
