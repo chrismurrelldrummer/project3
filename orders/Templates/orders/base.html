@@ -54,15 +54,12 @@
             <!-- logged in -->
             {% if request.user.is_authenticated %}
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-                <a class="nav-item nav-link" href="{% url 'menu' %}">Menu</a>
-            </div>
-
-            <div class="navbar-nav text-center text-light">
-                Logged in as: {{ user.username }}
+                <a class="nav-item nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+                <a class="nav-item nav-link" href="{% url 'menu' %}"><i class="fas fa-pizza-slice"></i> Menu</a>
             </div>
 
             <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" href="{% url 'account' %}"><i class="fas fa-user-edit"></i> My Account: {{ user.username }}</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i> Basket<span class="badge badge-dark" id="basketnum" hidden>0</span></a>
             </div>
@@ -70,8 +67,8 @@
             <!-- if not logged in -->
             {% else %}
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}"><i class="fas fa-file-signature"></i> Register</a>
+                <a class="nav-item nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
             {% endif %}
 

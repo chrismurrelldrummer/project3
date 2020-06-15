@@ -1,0 +1,213 @@
+{% extends "orders/base.html" %}
+{% load static %}
+
+{% block title %}
+My Account
+{% endblock %}
+
+{% block main %}
+<div class="row justify-content-md-center">
+
+    {% if not active and not delivery and not expired %}
+    <div class="card border-info m-3">
+        <div class="card-header">Username: {{ user.username }}</div>
+        <div class="card-body text-info">
+            <p class="card-text"><strong>First Name: </strong>{{ user.first_name }}</p>
+            <p class="card-text"><strong>Surname: </strong>{{ user.last_name }}</p>
+            <p class="card-text"><strong>Email: </strong>{{ user.email }}</p>
+        </div>
+    </div>
+    {% else %}
+
+    <div class="w-75">
+        <!-- Previous Orders -->
+        <h1>My Orders</h1>
+        {% if active %}
+        <h5>Currently Active:</h5>
+        {% endif %}
+        {% for row in active %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-left">
+                        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
+                        <h6 class="card-subtitle text-muted">{{ row.time_placed }}</h6>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-outline-info" data-toggle="collapse"
+                            data-target="#details{{ row.order_id }}" aria-controls="list-group"
+                            aria-expanded="false">View
+                            Details</button>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush collapse" id="details{{ row.order_id }}">
+                <li class="list-group-item pb-4">
+                    <h5>Items:</h5>
+                    <ul>
+                        {% for line in pizzas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pizza:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in subs %}{% if line.order_id.order_id == row.order_id %}<li><strong>Sub:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in pastas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pasta:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in salads %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Salad:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in platters %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Platter:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        {% endfor %}
+
+
+        {% if delivery %}
+        <h5>Out for Delivery:</h5>
+        {% endif %}
+        {% for row in delivery %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-left">
+                        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
+                        <h6 class="card-subtitle text-muted">{{ row.time_placed }}</h6>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-outline-info" data-toggle="collapse"
+                            data-target="#details{{ row.order_id }}" aria-controls="list-group"
+                            aria-expanded="false">View
+                            Details</button>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush collapse" id="details{{ row.order_id }}">
+                <li class="list-group-item pb-4">
+                    <h5>Items:</h5>
+                    <ul>
+                        {% for line in pizzas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pizza:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in subs %}{% if line.order_id.order_id == row.order_id %}<li><strong>Sub:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in pastas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pasta:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in salads %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Salad:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in platters %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Platter:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        {% endfor %}
+
+        {% if expired %}
+        <h5>Expired:</h5>
+        {% endif %}
+        {% for row in expired %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-left">
+                        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
+                        <h6 class="card-subtitle text-muted">{{ row.time_placed }}</h6>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-outline-info" data-toggle="collapse"
+                            data-target="#details{{ row.order_id }}" aria-controls="list-group"
+                            aria-expanded="false">View
+                            Details</button>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush collapse" id="details{{ row.order_id }}">
+                <li class="list-group-item pb-4">
+                    <h5>Items:</h5>
+                    <ul>
+                        {% for line in pizzas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pizza:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in subs %}{% if line.order_id.order_id == row.order_id %}<li><strong>Sub:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in pastas %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Pasta:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in salads %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Salad:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                        {% for line in platters %}{% if line.order_id.order_id == row.order_id %}<li>
+                            <strong>Platter:</strong>
+                            {{ line }}</li>
+                        {% endif %}{% endfor %}
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="w-25">
+        <div class="container sticky-top">
+            <div class="card border-info m-3">
+                <div class="card-header">Username: {{ user.username }}</div>
+                <div class="card-body text-info">
+                    <p class="card-text"><strong>First Name: </strong>{{ user.first_name }}</p>
+                    <p class="card-text"><strong>Surname: </strong>{{ user.last_name }}</p>
+                    <p class="card-text"><strong>Email: </strong>{{ user.email }}</p>
+                </div>
+            </div>
+            <div class="card text-white bg-info m-3">
+                <div class="card-header">Filter by</div>
+                <div class="card-body">
+                    <a href="{% url 'filter' filter_by='newest' %}" class="nav-link sidebar"><i
+                            class="far fa-clock"></i><i class="fas fa-long-arrow-alt-up"></i>
+                        Newest</a>
+                    <a href="{% url 'filter' filter_by='oldest' %}" class="nav-link sidebar"><i
+                            class="fas fa-history"></i> Oldest</a>
+                    <a href="{% url 'filter' filter_by='cheapest' %}" class="nav-link sidebar"><i
+                            class="fas fa-dollar-sign"></i>
+                        Cheapest</a>
+                    <a href="{% url 'filter' filter_by='expensive' %}" class="nav-link sidebar"><i
+                            class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i
+                            class="fas fa-dollar-sign"></i> Largest Cost</a>
+                    <a href="{% if active %}{% url 'filter' filter_by='active' %}{% endif %}"
+                        class="nav-link sidebar"><i class="fas fa-spinner"></i>
+                        Active</a>
+                    <a href="{% if delivery %}{% url 'filter' filter_by='delivery' %}{% endif %}"
+                        class="nav-link sidebar"><i class="fas fa-road"></i>
+                        Delivery</a>
+                    <a href="{% if expired %}{% url 'filter' filter_by='expired' %}{% endif %}"
+                        class="nav-link sidebar"><i class="fas fa-check"></i>
+                        Expired</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

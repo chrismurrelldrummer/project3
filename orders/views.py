@@ -174,13 +174,256 @@ def place(request):
                 else:
                     continue
 
-            return HttpResponseRedirect(reverse("basket"))
+            return HttpResponseRedirect(reverse("account"))
 
     else:
         return HttpResponseRedirect(reverse("login"))
 
 
 def basket(request):
+
+    user = request.user
+
+    context = {
+        "user": user
+    }
+
+    return render(request, 'orders/basket.html', context)
+
+
+def filter(request, filter_by):
+
+    if filter_by == 'newest':
+
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('-time_placed')
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('-time_placed')
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('-time_placed')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "delivery": delivery,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+
+    elif filter_by == 'oldest':
+
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('time_placed')
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('time_placed')
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('time_placed')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "delivery": delivery,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+    
+    elif filter_by == 'cheapest':
+
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('cost')
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('cost')
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('cost')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "delivery": delivery,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+    
+    elif filter_by == 'expensive':
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('-cost')
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('-cost')
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('-cost')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "delivery": delivery,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+
+    elif filter_by == 'cheapest':
+
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('cost')
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('cost')
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('cost')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "delivery": delivery,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+    
+    elif filter_by == 'active':
+
+        user = request.user
+
+        active = Orders.objects.filter(
+            user_id=user, active='Y').order_by('-time_placed')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "active": active,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+    
+    elif filter_by == 'delivery':
+
+        user = request.user
+
+        delivery = Orders.objects.filter(
+            user_id=user, active='D').order_by('-time_placed')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "delivery": delivery,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+
+    else:
+
+        user = request.user
+
+        expired = Orders.objects.filter(
+            user_id=user, active='N').order_by('-time_placed')
+        
+        pizzas = PizOrder.objects.all()
+        subs = SubOrder.objects.all()
+        pastas = PastaOrder.objects.all()
+        salads = SaladOrder.objects.all()
+        platters = PlatterOrder.objects.all()
+
+        context = {
+            "user": user,
+            "expired": expired,
+            "pizzas": pizzas,
+            "subs": subs,
+            "pastas": pastas,
+            "salads": salads,
+            "platters": platters
+        }
+
+        return render(request, 'orders/account.html', context)
+
+
+def account(request):
 
     user = request.user
 
@@ -209,4 +452,4 @@ def basket(request):
         "platters": platters
     }
 
-    return render(request, 'orders/basket.html', context)
+    return render(request, 'orders/account.html', context)

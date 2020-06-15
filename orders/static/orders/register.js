@@ -25,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('unCheck').className = 'alert alert-danger';
             document.getElementById('register').disabled = true;
 
+        } else if (numCheck(un) == false) {
+
+            document.getElementById('unCheck').innerHTML = '<i class="far fa-times-circle"></i> Username does not match the requirements.';
+            document.getElementById('unCheck').hidden = false;
+            document.getElementById('unCheck').className = 'alert alert-danger';
+            document.getElementById('register').disabled = true;
+
         } else {
 
             document.getElementById('unCheck').innerHTML = '<i class="far fa-check-circle"></i> Username meets the requirements';
@@ -57,6 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pwCheck').innerHTML = '<i class="far fa-times-circle"></i> Password does not match the requirements.';
             document.getElementById('pwCheck').hidden = false;
             document.getElementById('pwCheck').className = 'alert alert-danger';
+            document.getElementById('register').disabled = true;
+
+        } else if (numCheck(un) == false) {
+
+            document.getElementById('unCheck').innerHTML = '<i class="far fa-times-circle"></i> Username does not match the requirements.';
+            document.getElementById('unCheck').hidden = false;
+            document.getElementById('unCheck').className = 'alert alert-danger';
             document.getElementById('register').disabled = true;
 
         } else {
@@ -97,7 +111,7 @@ function alphanum(txt) {
 };
 
 function caseCheck(txt) {
-    
+
     let upcount = 0;
     let lowcount = 0;
 
@@ -119,6 +133,22 @@ function caseCheck(txt) {
     if (upcount >= 1 && lowcount >= 1) {
         return true;
     } else {
+        return false;
+    }
+};
+
+function numCheck(txt) {
+
+    for (i = 0; i < txt.length; i++) {
+
+        let c = txt[i];
+
+        if (isNaN(c)) {
+            continue;
+        } else {
+            return true;
+        }
+
         return false;
     }
 };

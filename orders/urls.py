@@ -9,5 +9,7 @@ urlpatterns = [
     path("logout", views.log_out, name="logout"),
     path("menu", views.menu, name="menu"),
     path("basket", views.basket, name="basket"),
-    path("place", views.place, name="place")
+    path("place", views.place, name="place"),
+    path("account", views.account, name="account"),
+    path("account/filter/<filter_by>", views.filter, name="filter")
 ]

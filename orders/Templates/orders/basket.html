@@ -27,7 +27,7 @@ My Basket
 
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="confirmation" hidden></div>
 
-<form action="place" method="post">
+<form action="{% url 'place' %}" method="post">
     {% csrf_token %}
     <div class="form-group" id="basketList">
         <!-- handlebars template content in here -->
@@ -42,73 +42,12 @@ My Basket
 
     <div class="form-group">
         <button type="submit" class="btn btn-success" id="placeOrder">
-            Place my Order
+            <i class="fas fa-check"></i> Place my Order
         </button>
         <button type="button" class="btn btn-warning" id="deleteOrder">
-            Delete all items
+            <i class="fas fa-trash-alt"></i> Delete all items
         </button>
     </div>
 </form>
-
-<!-- Previous Orders -->
-<h1>My Orders</h1>
-<h5>Currently Active:</h5>
-{% for row in active %}
-<div class="card mb-2">
-    <div class="card-body">
-        <div class="row">
-            <div class="col text-left">
-                <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
-                <h6 class="card-subtitle text-muted">{{ row.time_placed }}</h6>
-            </div>
-            <div class="col text-right">
-                <button type="button" class="btn btn-outline-info" data-toggle="collapse"
-                    data-target="#details{{ row.order_id }}" aria-controls="list-group" aria-expanded="false">View
-                    Details</button>
-            </div>
-        </div>
-    </div>
-    <ul class="list-group list-group-flush collapse" id="details{{ row.order_id }}">
-        <li class="list-group-item pb-4">
-            <h5>Items:</h5>
-            <ul>
-                {% for line in pizzas %}{% if line.order_id.order_id == row.order_id %}<li><strong>Pizza:</strong> {{ line }}</li>
-                {% endif %}{% endfor %}
-                {% for line in subs %}{% if line.order_id.order_id == row.order_id %}<li><strong>Sub:</strong> {{ line }}</li>
-                {% endif %}{% endfor %}
-                {% for line in pastas %}{% if line.order_id.order_id == row.order_id %}<li><strong>Pasta:</strong> {{ line }}</li>
-                {% endif %}{% endfor %}
-                {% for line in salads %}{% if line.order_id.order_id == row.order_id %}<li><strong>Salad:</strong> {{ line }}</li>
-                {% endif %}{% endfor %}
-                {% for line in platters %}{% if line.order_id.order_id == row.order_id %}<li><strong>Platter:</strong> {{ line }}</li>
-                {% endif %}{% endfor %}
-            </ul>
-
-        </li>
-    </ul>
-</div>
-{% endfor %}
-
-<h5>Out for Delivery:</h5>
-{% for row in delivery %}
-<div class="card mb-2">
-    <div class="card-body">
-        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items:</p>
-    </div>
-</div>
-{% endfor %}
-
-<h5>Expired:</h5>
-{% for row in expired %}
-<div class="card mb-2">
-    <div class="card-body">
-        <h5 class="card-title">Order: #{{ row.order_id }} -- ${{ row.cost }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ row.time_placed }}</h6>
-        <p class="card-text">Items:</p>
-    </div>
-</div>
-{% endfor %}
 
 {% endblock %}
