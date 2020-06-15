@@ -6,6 +6,27 @@ Home
 
 {% block main %}
 
-<h1>Welcome to Pizza Orders!</h1>
+{% if request.user.is_authenticated %}
+<div class="jumbotron text-center">
+    <h1 class="display-4 mb-5"><i class="fas fa-pizza-slice"></i> Welcome back {{user.first_name}} {{user.last_name}}! <i class="fas fa-pizza-slice"></i>
+    </h1>
+    <h3>It's GREAT to have you back! Now go and tame that hunger by ordering something delicious to eat...</h3>
+    <hr class="my-4">
+    <a class="btn btn-success btn-lg" href="{% url 'menu' %}" role="button"><i class="fas fa-utensils"></i> Menu</a>
+</div>
+
+{% else %}
+<div class="jumbotron text-center">
+    <h1 class="display-4 mb-5"><i class="fas fa-pizza-slice"></i> Welcome to Pizza Orders! <i class="fas fa-pizza-slice"></i>
+    </h1>
+    <h3>If you're looking for something YUMMY...you have come to the right place!</h3>
+    <hr class="my-4">
+    <h4>New here? Register for an account to view our menu and place an order.</h4>
+    <a class="btn btn-success btn-lg" href="{% url 'register' %}" role="button"><i class="fas fa-file-signature"></i> Register</a>
+    <hr class="my-4">
+    <h4>Already got an account? Log in and get those tastebuds tingling.</h4>
+    <a class="btn btn-info btn-lg" href="{% url 'login' %}" role="button"><i class="fas fa-sign-in-alt"></i> Log In</a>
+</div>
+{% endif %}
 
 {% endblock %}

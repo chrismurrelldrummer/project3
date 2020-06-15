@@ -61,6 +61,7 @@ class OrderAdmin(admin.ModelAdmin):
 class PizzaAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'category', 'smPrice', 'lgPrice', 'numTop')
     list_editable = ('smPrice', 'lgPrice', 'numTop')
+    ordering = ('id',)
 
 
 class PizItemAdmin(admin.ModelAdmin):
@@ -76,6 +77,7 @@ class PizItemAdmin(admin.ModelAdmin):
 class SubAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'smPrice', 'lgPrice')
     list_editable = ('smPrice', 'lgPrice')
+    ordering = ('id',)
 
 class SubItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'typ', 'size', 'custom_extras', 'price')
@@ -95,6 +97,7 @@ class ExtraAdmin(admin.ModelAdmin):
 class PastaAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'price')
     list_editable = ['price']
+    ordering = ('id',)
 
 class PastaItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'typ', 'price')
@@ -108,6 +111,7 @@ class PastaItemAdmin(admin.ModelAdmin):
 class SaladAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'price')
     list_editable = ['price']
+    ordering = ('id',)
 
 class SaladItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'typ', 'price')
@@ -121,6 +125,7 @@ class SaladItemAdmin(admin.ModelAdmin):
 class PlatterAdmin(admin.ModelAdmin):
     list_display = ('id', 'typ', 'smPrice', 'lgPrice')
     list_editable = ('smPrice', 'lgPrice')
+    ordering = ('id',)
 
 class PlatterItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'typ', 'size', 'price')
