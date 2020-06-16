@@ -66,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pwCheck').className = 'alert alert-danger';
             document.getElementById('register').disabled = true;
 
-        } else if (numCheck(un) == false) {
+        } else if (numCheck(pw) == false) {
 
-            document.getElementById('unCheck').innerHTML = '<i class="far fa-times-circle"></i> Username does not match the requirements.';
-            document.getElementById('unCheck').hidden = false;
-            document.getElementById('unCheck').className = 'alert alert-danger';
+            document.getElementById('pwCheck').innerHTML = '<i class="far fa-times-circle"></i> Username does not match the requirements.';
+            document.getElementById('pwCheck').hidden = false;
+            document.getElementById('pwCheck').className = 'alert alert-danger';
             document.getElementById('register').disabled = true;
 
         } else {
@@ -141,14 +141,14 @@ function numCheck(txt) {
 
     for (i = 0; i < txt.length; i++) {
 
-        let c = txt[i];
+        const c = txt[i];
 
         if (isNaN(c)) {
             continue;
         } else {
             return true;
         }
-
-        return false;
     }
+
+    return false;
 };

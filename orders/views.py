@@ -1,8 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import *
+from .forms import RegForm
 
 import json
 
@@ -15,21 +17,21 @@ def register(request):
 
     if request.method == 'POST':
 
-        first = request.POST["first"]
-        surname = request.POST["surname"]
-        email = request.POST["email"]
-        username = request.POST["username"]
-        password = request.POST["password"]
+        form = RegForm(request.POST)
 
-        user = User.objects.create_user(username, email, password)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
 
-        user.first_name = first
-        user.last_name = surname
-        user.save()
+            login(request, user)
 
-        login(request, user)
-
-        return HttpResponseRedirect(reverse("menu"))
+            return HttpResponseRedirect(reverse("menu"))
+        
+        else:
+            messages.error(request, form.errors)
+            return render(request, 'orders/register.html')
 
     else:
         return render(request, 'orders/register.html')
