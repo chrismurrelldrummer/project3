@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import RegForm
 
+from notifications.signals import notify
+
 import json
 
 
@@ -68,6 +70,9 @@ def menu(request):
 
         if request.method == 'GET':
 
+            user = request.user
+            notes = user.notifications.unread()
+
             # django won't allow range in template {% %} of html page hence defining it here
             it = Pizza.objects.all()
 
@@ -77,14 +82,15 @@ def menu(request):
                 row.num = range(1, (num+1))
 
             context = {
-                "user": request.user,
+                "user": user,
                 "pizza": it,
                 "toppings": Toppings.objects.all(),
                 "subs": Sub.objects.all(),
                 "extras": Extras.objects.all(),
                 "pasta": Pasta.objects.all(),
                 "salads": Salad.objects.all(),
-                "platters": Platter.objects.all()
+                "platters": Platter.objects.all(),
+                "notes": notes
             }
             return render(request, "orders/menu.html", context)
 

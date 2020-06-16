@@ -1,11 +1,17 @@
 from django.contrib import admin
 from django import forms
 
+from notifications.signals import notify
+
 from .models import *
 
 
 def order_complete(modeladmin, request, queryset):
     # Admin Action Function - mark as completed
+    user = request.user
+    ident = request.POST['_selected_action']
+    to = Orders.objects.get(order_id=ident)
+    notify.send(user, recipient=to.user_id, verb='Your order is complete and has been archived!', action_object=to, level='success')
     queryset.update(active='N')
 
 
@@ -14,7 +20,11 @@ order_complete.short_description = "Mark order as complete"
 
 
 def order_delivery(modeladmin, request, queryset):
-    # Admin Action Function - mark as delivery
+    # Admin Action Function - mark as out for delivery
+    user = request.user
+    ident = request.POST['_selected_action']
+    to = Orders.objects.get(order_id=ident)
+    notify.send(user, recipient=to.user_id, verb='Your order is out for delivery!',action_object=to, level='success')
     queryset.update(active='D')
 
 
@@ -150,6 +160,8 @@ admin.site.register(SubOrder, SubItemAdmin)
 admin.site.register(PastaOrder, PastaItemAdmin)
 admin.site.register(SaladOrder, SaladItemAdmin)
 admin.site.register(PlatterOrder, PlatterItemAdmin)
+
+# admin.site.register(NotificationAdmin)
 
 admin.site.site_header = "Pizza"
 admin.site.site_title = "Pizza Admin"

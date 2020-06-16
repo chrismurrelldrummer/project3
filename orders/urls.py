@@ -11,5 +11,5 @@ urlpatterns = [
     path("basket", views.basket, name="basket"),
     path("place", views.place, name="place"),
     path("account", views.account, name="account"),
-    path("account/filter/<filter_by>", views.filter, name="filter")
+    path("account/filter/<filter_by>", views.filter, name="filter"),
 ]
