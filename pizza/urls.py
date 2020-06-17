@@ -19,7 +19,7 @@ from django.urls import include, path
 import notifications.urls
 
 urlpatterns = [
-    path("", include("orders.urls")),
+    path("", include("orders.urls", namespace='orders')),
     path("admin/", admin.site.urls),
     path('inbox/notifications/',
          include(notifications.urls, namespace='notifications')),

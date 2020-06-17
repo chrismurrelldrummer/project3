@@ -27,7 +27,7 @@ My Basket
 
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="confirmation" hidden></div>
 
-<form action="{% url 'place' %}" method="post">
+<form action="{% url 'orders:place' %}" method="post">
     {% csrf_token %}
     <div class="form-group" id="basketList">
         <!-- handlebars template content in here -->

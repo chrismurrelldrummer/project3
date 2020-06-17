@@ -12,7 +12,7 @@ Home
     </h1>
     <h3>It's GREAT to have you back! Now go and tame that hunger by ordering something delicious to eat...</h3>
     <hr class="my-4">
-    <a class="btn btn-success btn-lg" href="{% url 'menu' %}" role="button"><i class="fas fa-utensils"></i> Menu</a>
+    <a class="btn btn-success btn-lg" href="{% url 'orders:menu' %}" role="button"><i class="fas fa-utensils"></i> Menu</a>
 </div>
 
 {% else %}
@@ -22,10 +22,10 @@ Home
     <h3>If you're looking for something YUMMY...you have come to the right place!</h3>
     <hr class="my-4">
     <h4>New here? Register for an account to view our menu and place an order.</h4>
-    <a class="btn btn-success btn-lg" href="{% url 'register' %}" role="button"><i class="fas fa-file-signature"></i> Register</a>
+    <a class="btn btn-success btn-lg" href="{% url 'orders:register' %}" role="button"><i class="fas fa-file-signature"></i> Register</a>
     <hr class="my-4">
     <h4>Already got an account? Log in and get those tastebuds tingling.</h4>
-    <a class="btn btn-info btn-lg" href="{% url 'login' %}" role="button"><i class="fas fa-sign-in-alt"></i> Log In</a>
+    <a class="btn btn-info btn-lg" href="{% url 'orders:login' %}" role="button"><i class="fas fa-sign-in-alt"></i> Log In</a>
 </div>
 {% endif %}
 

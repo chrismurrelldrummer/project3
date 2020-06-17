@@ -49,7 +49,7 @@
 
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'home' %}">Pizza</a>
+        <a class="navbar-brand" href="{% url 'orders:home' %}">Pizza</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,8 +59,8 @@
             <!-- logged in -->
             {% if request.user.is_authenticated %}
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
-                <a class="nav-item nav-link" href="{% url 'menu' %}"><i class="fas fa-pizza-slice"></i> Menu</a>
+                <a class="nav-item nav-link" href="{% url 'orders:home' %}"><i class="fas fa-home"></i> Home</a>
+                <a class="nav-item nav-link" href="{% url 'orders:menu' %}"><i class="fas fa-pizza-slice"></i> Menu</a>
             </div>
 
             <div class="navbar-nav text-center">
@@ -84,32 +84,42 @@
                         <div class="modal-body">
                             {% notifications_unread as unread_count %}
                             {% if unread_count > 0 %}
-                            {% live_notify_list %}
+                            {% notifications_list_unread as notes %}
+                            {% for note in notes %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">#{{note.action_object.order_id}} -- {{note.verb}}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{note.actor}} -- {{note.timestamp}}</h6>
+                                </div>
+                            </div>
+                            {% endfor %}
                             {% else %}
-                            You have no notifications yet.
+                            You have no unread notifications.
                             {% endif %}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{% url 'notifications:mark_all_as_read' %}?next={{ request.path|urlencode }}" type="button" class="btn btn-success">Mark all as read</a>
+                            <a href="{% url 'notifications:all' %}" type="button" class="btn btn-secondary">View all messages</a>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{% url 'account' %}"><i class="fas fa-user-edit"></i> My Account:
+                <a class="nav-item nav-link" href="{% url 'orders:account' %}"><i class="fas fa-user-edit"></i> My Account:
                     {{ user.username }}</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                <a class="nav-item nav-link" href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i>
+                <a class="nav-item nav-link" href="{% url 'orders:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a class="nav-item nav-link" href="{% url 'orders:basket' %}"><i class="fas fa-shopping-basket"></i>
                     Basket<span class="badge badge-dark" id="basketnum" hidden>0</span></a>
             </div>
 
             <!-- if not logged in -->
             {% else %}
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{% url 'register' %}"><i class="fas fa-file-signature"></i>
+                <a class="nav-item nav-link" href="{% url 'orders:register' %}"><i class="fas fa-file-signature"></i>
                     Register</a>
-                <a class="nav-item nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a class="nav-item nav-link" href="{% url 'orders:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
             {% endif %}
 

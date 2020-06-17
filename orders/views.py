@@ -29,7 +29,7 @@ def register(request):
 
             login(request, user)
 
-            return HttpResponseRedirect(reverse("menu"))
+            return HttpResponseRedirect(reverse("orders:menu"))
         
         else:
             messages.error(request, form.errors)
@@ -49,7 +49,7 @@ def log_in(request):
 
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("menu"))
+            return HttpResponseRedirect(reverse("orders:menu"))
         else:
             return render(request, "users/login.html", {"message": "Invalid username/password."})
 
@@ -71,7 +71,6 @@ def menu(request):
         if request.method == 'GET':
 
             user = request.user
-            notes = user.notifications.unread()
 
             # django won't allow range in template {% %} of html page hence defining it here
             it = Pizza.objects.all()
@@ -90,7 +89,6 @@ def menu(request):
                 "pasta": Pasta.objects.all(),
                 "salads": Salad.objects.all(),
                 "platters": Platter.objects.all(),
-                "notes": notes
             }
             return render(request, "orders/menu.html", context)
 
@@ -182,10 +180,10 @@ def place(request):
                 else:
                     continue
 
-            return HttpResponseRedirect(reverse("account"))
+            return HttpResponseRedirect(reverse("orders:account"))
 
     else:
-        return HttpResponseRedirect(reverse("login"))
+        return HttpResponseRedirect(reverse("orders:login"))
 
 
 def basket(request):

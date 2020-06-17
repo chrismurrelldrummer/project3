@@ -22,7 +22,7 @@ Register
 {% endfor %}
 {% endif %}
 
-<form action="{% url 'register' %}" method="POST">
+<form action="{% url 'orders:register' %}" method="POST">
     {% csrf_token %}
     <div class="form-row">
         <div class="form-group col-md-6">

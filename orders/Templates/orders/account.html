@@ -184,24 +184,24 @@ My Account
             <div class="card text-white bg-info m-3">
                 <div class="card-header">Filter by</div>
                 <div class="card-body">
-                    <a href="{% url 'filter' filter_by='newest' %}" class="nav-link sidebar"><i
+                    <a href="{% url 'orders:filter' filter_by='newest' %}" class="nav-link sidebar"><i
                             class="far fa-clock"></i><i class="fas fa-long-arrow-alt-up"></i>
                         Newest</a>
-                    <a href="{% url 'filter' filter_by='oldest' %}" class="nav-link sidebar"><i
+                    <a href="{% url 'orders:filter' filter_by='oldest' %}" class="nav-link sidebar"><i
                             class="fas fa-history"></i> Oldest</a>
-                    <a href="{% url 'filter' filter_by='cheapest' %}" class="nav-link sidebar"><i
+                    <a href="{% url 'orders:filter' filter_by='cheapest' %}" class="nav-link sidebar"><i
                             class="fas fa-dollar-sign"></i>
                         Cheapest</a>
-                    <a href="{% url 'filter' filter_by='expensive' %}" class="nav-link sidebar"><i
+                    <a href="{% url 'orders:filter' filter_by='expensive' %}" class="nav-link sidebar"><i
                             class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i
                             class="fas fa-dollar-sign"></i> Largest Cost</a>
-                    <a href="{% if active %}{% url 'filter' filter_by='active' %}{% endif %}"
+                    <a href="{% if active %}{% url 'orders:filter' filter_by='active' %}{% endif %}"
                         class="nav-link sidebar"><i class="fas fa-spinner"></i>
                         Active</a>
-                    <a href="{% if delivery %}{% url 'filter' filter_by='delivery' %}{% endif %}"
+                    <a href="{% if delivery %}{% url 'orders:filter' filter_by='delivery' %}{% endif %}"
                         class="nav-link sidebar"><i class="fas fa-road"></i>
                         Delivery</a>
-                    <a href="{% if expired %}{% url 'filter' filter_by='expired' %}{% endif %}"
+                    <a href="{% if expired %}{% url 'orders:filter' filter_by='expired' %}{% endif %}"
                         class="nav-link sidebar"><i class="fas fa-check"></i>
                         Expired</a>
                 </div>
