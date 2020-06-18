@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let subtotal = localStorage.getItem('subtotal');
         document.querySelector('#subtotal').innerHTML = parseFloat(subtotal).toFixed(2);
+        document.querySelector('#charge').innerHTML = parseFloat(subtotal).toFixed(2);
 
         for (i in bask) {
 
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#placeOrder').onclick = (button) => {
 
         document.querySelector('#hiddenData').value = localStorage.getItem('basket');
+        document.querySelector('#hiddenSub').value = localStorage.getItem('subtotal');
         localStorage.removeItem('basket');
         localStorage.removeItem('subtotal');
         localStorage.removeItem('basknum');
@@ -91,4 +93,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#confirmation').hidden = false;
         document.querySelector('#confirmation').innerHTML = 'Successfully removed all items from basket!';
     };
+
 });

@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import RegForm
-
 from notifications.signals import notify
 
 import json
@@ -30,7 +29,7 @@ def register(request):
             login(request, user)
 
             return HttpResponseRedirect(reverse("orders:menu"))
-        
+
         else:
             messages.error(request, form.errors)
             return render(request, 'orders/register.html')
@@ -104,8 +103,87 @@ def place(request):
 
             user = request.user
             data = request.POST['hiddenData']
-
             data = json.loads(data)
+
+            cardnum = request.POST['cardNumber']
+
+            # card validator ****************************
+            if len(cardnum) < 13 or len(cardnum) > 16 or len(cardnum) == 14:
+                messages.add_message(
+                    request, messages.ERROR, 'Card Invalid 1 - Transaction unsuccessful.')
+                return HttpResponseRedirect(reverse("orders:basket"))
+            else:
+                length = len(cardnum)
+                # step 1 calculate 2x every other number then add
+                i = length - 2
+                sum1 = 0
+                sum2 = 0
+                end = 1
+                while i >= 0:
+                    val = int(cardnum[i]) * 2
+
+                    if val >= 10:
+                        val1 = []
+                        for k in range(2):
+                            val1.append(int(val) % 10)
+                            val = val / 10
+                            sum1 += val1[k]
+                    else:
+                        sum1 += val
+
+                    i -= 2
+
+                # step 2 calculate sum of digits remaining
+                i = length - 1
+                while i >= 0:
+                    val = int(cardnum[i])
+
+                    if val >= 10:
+                        val1 = []
+                        for k in range(2):
+                            val1.append(int(val) % 10)
+                            val = val / 10
+                            sum2 += val1[k]
+                    else:
+                        sum2 += val
+
+                    i -= 2
+
+                total = sum1 + sum2
+
+                # step 3 check ending in 0 and assign card type
+                end = int(total) % 10
+
+                if not end == 0:
+                    messages.add_message(
+                        request, messages.ERROR, 'Card Invalid 2 - Transaction unsuccessful.')
+                    return HttpResponseRedirect(reverse("orders:basket"))
+                elif length == 15:
+                    if cardnum[0] == '3' and cardnum[1] == '4' or '7':
+                        pass
+                    else:
+                        messages.add_message(
+                            request, messages.ERROR, 'Card Invalid 3 - Transaction unsuccessful.')
+                        return HttpResponseRedirect(reverse("orders:basket"))
+
+                elif length == 16:
+                    if cardnum[0] == '5' and 0 < int(cardnum[1]) < 6:
+                        pass
+                    elif cardnum[0] == '4':
+                        pass
+                    else:
+                        messages.add_message(
+                            request, messages.ERROR, 'Card Invalid 4 - Transaction unsuccessful.')
+                        return HttpResponseRedirect(reverse("orders:basket"))
+
+                elif length == 13:
+                    if cardnum[0] == '4':
+                        pass
+                    else:
+                        messages.add_message(
+                            request, messages.ERROR, 'Card Invalid 5 - Transaction unsuccessful.')
+                        return HttpResponseRedirect(reverse("orders:basket"))
+            # end of card validator ****************************
 
             ord1 = Orders(user_id=user)
             ord1.save()
@@ -114,12 +192,14 @@ def place(request):
                 if row['item'] == 'Pizza':
                     p1 = Pizza.objects.get(id=row['ident'])
 
-                    po1 = PizOrder(order_id=ord1, typ=p1, price=float(row['price']), size=row['size'])
+                    po1 = PizOrder(order_id=ord1, typ=p1, price=float(
+                        row['price']), size=row['size'])
                     po1.save()
 
                     if row['toppings'] != []:
                         for row in row['toppings']:
-                            top = Toppings.objects.get(typ=row.replace('&amp;', '&'))
+                            top = Toppings.objects.get(
+                                typ=row.replace('&amp;', '&'))
                             po1.toppings.add(top)
                             po1.save()
 
@@ -130,13 +210,14 @@ def place(request):
                 elif row['item'] == 'Sub':
                     s1 = Sub.objects.get(id=row['ident'])
 
-                    so1 = SubOrder(order_id=ord1, 
-                        typ=s1, price=float(row['price']), size=row['size'])
+                    so1 = SubOrder(order_id=ord1,
+                                   typ=s1, price=float(row['price']), size=row['size'])
                     so1.save()
 
                     if row['toppings'] != []:
                         for row in row['toppings']:
-                            row = Extras.objects.get(typ=row.replace('&amp;', '&'))
+                            row = Extras.objects.get(
+                                typ=row.replace('&amp;', '&'))
                             so1.extras.add(row)
                             so1.save()
 
@@ -147,8 +228,8 @@ def place(request):
                 elif row['item'] == 'Pasta':
                     pasta1 = Pasta.objects.get(id=row['ident'])
 
-                    paO1 = PastaOrder(order_id=ord1, 
-                        typ=pasta1, price=float(row['price']))
+                    paO1 = PastaOrder(order_id=ord1,
+                                      typ=pasta1, price=float(row['price']))
                     paO1.save()
 
                     ord1.cost += paO1.price
@@ -158,8 +239,8 @@ def place(request):
                 elif row['item'] == 'Salad':
                     salad1 = Salad.objects.get(id=row['ident'])
 
-                    salO1 = SaladOrder(order_id=ord1, 
-                        typ=salad1, price=float(row['price']))
+                    salO1 = SaladOrder(order_id=ord1,
+                                       typ=salad1, price=float(row['price']))
                     salO1.save()
 
                     ord1.cost += salO1.price
@@ -169,8 +250,8 @@ def place(request):
                 elif row['item'] == 'Platter':
                     platter1 = Platter.objects.get(id=row['ident'])
 
-                    plato1 = PlatterOrder(order_id=ord1, 
-                        typ=platter1, price=float(row['price']), size=row['size'])
+                    plato1 = PlatterOrder(order_id=ord1,
+                                          typ=platter1, price=float(row['price']), size=row['size'])
                     plato1.save()
 
                     ord1.cost += plato1.price
@@ -180,6 +261,9 @@ def place(request):
                 else:
                     continue
 
+            auto = User.objects.get(username='AutomaticSystemMessage')
+
+            notify.send(auto, recipient=user, verb="Your payment details have been confirmed and your order has been placed successfully! We'll notify you when it's out for delivery.", action_object=ord1, level='success')
             return HttpResponseRedirect(reverse("orders:account"))
 
     else:
@@ -209,7 +293,7 @@ def filter(request, filter_by):
             user_id=user, active='D').order_by('-time_placed')
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('-time_placed')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -240,7 +324,7 @@ def filter(request, filter_by):
             user_id=user, active='D').order_by('time_placed')
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('time_placed')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -260,7 +344,7 @@ def filter(request, filter_by):
         }
 
         return render(request, 'orders/account.html', context)
-    
+
     elif filter_by == 'cheapest':
 
         user = request.user
@@ -271,7 +355,7 @@ def filter(request, filter_by):
             user_id=user, active='D').order_by('cost')
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('cost')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -291,7 +375,7 @@ def filter(request, filter_by):
         }
 
         return render(request, 'orders/account.html', context)
-    
+
     elif filter_by == 'expensive':
         user = request.user
 
@@ -301,7 +385,7 @@ def filter(request, filter_by):
             user_id=user, active='D').order_by('-cost')
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('-cost')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -332,7 +416,7 @@ def filter(request, filter_by):
             user_id=user, active='D').order_by('cost')
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('cost')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -352,14 +436,14 @@ def filter(request, filter_by):
         }
 
         return render(request, 'orders/account.html', context)
-    
+
     elif filter_by == 'active':
 
         user = request.user
 
         active = Orders.objects.filter(
             user_id=user, active='Y').order_by('-time_placed')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -377,14 +461,14 @@ def filter(request, filter_by):
         }
 
         return render(request, 'orders/account.html', context)
-    
+
     elif filter_by == 'delivery':
 
         user = request.user
 
         delivery = Orders.objects.filter(
             user_id=user, active='D').order_by('-time_placed')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -409,7 +493,7 @@ def filter(request, filter_by):
 
         expired = Orders.objects.filter(
             user_id=user, active='N').order_by('-time_placed')
-        
+
         pizzas = PizOrder.objects.all()
         subs = SubOrder.objects.all()
         pastas = PastaOrder.objects.all()
@@ -439,7 +523,7 @@ def account(request):
         user_id=user, active='D').order_by('-time_placed')
     expired = Orders.objects.filter(
         user_id=user, active='N').order_by('-time_placed')
-    
+
     pizzas = PizOrder.objects.all()
     subs = SubOrder.objects.all()
     pastas = PastaOrder.objects.all()
