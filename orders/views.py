@@ -28,6 +28,9 @@ def register(request):
 
             login(request, user)
 
+            auto = User.objects.get(username='AutomaticSystemMessage')
+            notify.send(auto, recipient=user, verb="Welcome! Thank you for signing up to Pizza. We hope you find something that makes your mouth water and we look forward to receiving an order from you very soon. Check out our 'menu' page to add things to your basket. You can view orders you have placed in your 'account' page.", level='info')
+
             return HttpResponseRedirect(reverse("orders:menu"))
 
         else:
@@ -262,8 +265,8 @@ def place(request):
                     continue
 
             auto = User.objects.get(username='AutomaticSystemMessage')
-
             notify.send(auto, recipient=user, verb="Your payment details have been confirmed and your order has been placed successfully! We'll notify you when it's out for delivery.", action_object=ord1, level='success')
+
             return HttpResponseRedirect(reverse("orders:account"))
 
     else:

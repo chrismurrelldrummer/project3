@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (bask == null) {
         div.innerHTML = 'You do not have any items in your basket!';
-        document.querySelector('#placeOrder').disabled = true;
+        document.querySelector('#confirmOrder').disabled = true;
         document.querySelector('#deleteOrder').disabled = true;
         document.querySelector('#total').hidden = true;
     } else {
